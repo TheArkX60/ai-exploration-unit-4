@@ -22,7 +22,7 @@ Status: Approved by Developer 2026-10-19. Main risk across these: layout or laye
 
 - [x] **1. Static shell.** Start screen, state variable, reduced-motion read, static SVG scene in layers, placeholder hotspots, Play/Pause stub, credits stub. Verify: acceptance checks 1-10 in `spec.md`, screenshots at three phone sizes.
 - [x] **2. Early deploy.** Push to GitHub Pages and open the HTTPS URL on a physical phone. Verify: scene fits, Enter works, tap targets usable. Catches viewport/address-bar issues before effects are added.
-- [ ] **3. Ambient visuals.** Fog, bats, flicker, leaves, stars, one at a time. Verify: each visible, loops cleanly, honors reduced motion, Play/Pause freezes them.
+- [x] **3. Ambient visuals.** Fog, bats, flicker, leaves, stars, one at a time. Verify: each visible, loops cleanly, honors reduced motion, Play/Pause freezes them.
 - [ ] **4. Ambient audio.** Source and verify CC0 wind and owl (record in `research.md`), loop, gated by Enter, paused by Play/Pause.
 - [ ] **5. Story 1 (pumpkins)** as a standalone sequence first, then triggers, progress feedback, hints, input lock. Then Phase 1 playtest.
 
@@ -73,6 +73,21 @@ Live URL: https://thearkx60.github.io/ai-exploration-unit-4/ (GitHub Pages, `mai
 | iPhone: "three bats on the left", not moving | New `index.html` paired with a cached older `style.css` (GitHub Pages caches 10 min), so bats had no styles or motion | `?v=` version stamps on `style.css` and `app.js`, bumped before each push (rule in `AGENTS.md`) | Reproduced in WebKit with the old stylesheet; then confirmed bats and leaves move on the live URL in WebKit; Developer confirmed on iPhone |
 
 **Testing note:** since the cache bug, Agent checks also run in Playwright WebKit (iPhone's engine) in the scratchpad, not only in Chrome.
+
+### Checkpoint 4: ambient audio (built and phone-checked, 2026-10-19; awaiting Developer tick)
+
+Sounds (CC0, recorded in `research.md`): IgnasD wind gusts, chained with overlap and random pitch/loudness into a continuous bed; Breviceps owl hoot every 22-44 s. Code: `audio.js`; checks A1-A7 in `spec.md`.
+
+**Verified by Agent:** no audio context before Enter; after Enter all four files load and a 40 s Chrome run played 11 gusts and 1 hoot with continuous level (silent only at the first instant); Pause suspends the audio clock and every sound, Play resumes; blocked files show the "Sound unavailable" note while the scene, taps and Pause still work; reduced motion does not silence audio; the live site serves the files with correct types and plays. **Not testable by the Agent:** real iPhone sound (the Windows WebKit build used for testing has no Web Audio).
+
+**Developer observations and changes:**
+| What the Developer saw | Interpretation | Change | How verified |
+|---|---|---|---|
+| Sound plays on the phone, not on the computer; "Sound unavailable" | Page opened straight from the folder (`file://`); browsers block loading the sound files that way. Reproduced by the Agent | `serve.bat` one-click local server; `AGENTS.md` says not to open `index.html` directly; the console now names the failing file, page address and prints a `file://` hint | Agent: serve.bat serves the audio (HTTP 200); Developer: "It works" on the computer |
+| On the phone, music stops when leaving the page and does not come back | iOS interrupts web audio when the page leaves the screen; nothing told the app or restarted it | Spec F6 built: hiding the page or locking the phone auto-pauses (button reads Play, stays paused); the Play tap restarts audio | Agent: tab-switch test, stays paused until Play, then audio runs. Developer on phone: "works now" |
+| (Agent finding) first sound request in a fresh test browser stalled, which silenced everything because startup waited for all four files | Fragile startup | Each file loads independently with a 20 s timeout; sounds start as their own file is ready; the note shows only if no wind file loads | Agent: tests above |
+
+**Not yet confirmed by the Developer:** how the wind sounds (continuous and natural versus gappy or pulsing), whether the owl was heard, and whether levels are right. Levels are `MASTER_GAIN`, `WIND_GAIN`, `OWL_GAIN` at the top of `audio.js`.
 
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
 
