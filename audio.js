@@ -49,11 +49,15 @@
       })
       .finally(() => clearTimeout(timer));
   }
-  const downloads = [...WIND_FILES, OWL_FILE].map(fetchBytes);
+  const ALL_FILES = [...WIND_FILES, OWL_FILE];
+  const downloads = ALL_FILES.map(fetchBytes);
   downloads.forEach((d) => d.catch(() => {}));         // failures are handled in start()
 
   function showUnavailable(error) {
     console.warn('[hollow-hill] sound unavailable:', error);
+    if (location.protocol === 'file:') {
+      console.warn('[hollow-hill] This page was opened straight from a file (file://). Browsers block loading the sound files that way. Open it through a web server instead (see AGENTS.md).');
+    }
     if (note) note.hidden = false;
   }
 
@@ -153,7 +157,7 @@
           console.info('[hollow-hill] audio: ready', i < WIND_FILES.length ? `wind ${i + 1}` : 'owl');
           schedule();
         })
-        .catch((error) => console.warn('[hollow-hill] audio: could not load file', i, error)));
+        .catch((error) => console.warn('[hollow-hill] audio: could not load', ALL_FILES[i], '| page address:', location.href, '|', error)));
       await resumed;
       await Promise.allSettled(loads);
       if (!hasWind()) showUnavailable('no wind sound could be loaded');
