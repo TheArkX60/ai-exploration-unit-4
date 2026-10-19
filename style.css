@@ -66,15 +66,13 @@ html, body {
 .start-note { margin: 0; color: var(--hint); }
 #enter { min-height: 56px; min-width: 160px; margin: 12px 0; font-size: 20px; }
 
-/* ---------- Stage: full height; width capped at 9:16 so desktop stays a centered phone-shaped box.
-   On phones taller than 9:16 the 360x640 art is centered and the sky/ground extend into the extra height. ---------- */
+/* ---------- Stage: always fills the viewport (no bars at any size or orientation).
+   The 360x640 art is centered inside; sky, hills and ground overshoot the viewBox on every side. ---------- */
 .stage {
   position: relative;
+  width: 100vw;
   height: 100vh;                      /* fallback without dvh */
-  height: 100dvh;                     /* dvh ignores the mobile address bar */
-  width: min(100vw, 56.25vh);
-  width: min(100vw, 56.25dvh);
-  margin: 0 auto;
+  height: 100dvh;                     /* tracks Safari's address/tool bars as they show and hide */
   overflow: hidden;
   touch-action: manipulation;
 }
@@ -106,7 +104,14 @@ html[data-phase="paused"] .scene { filter: brightness(0.6); }
 .hotspot.lit .pumpkin ellipse { fill: var(--pumpkin-lit); }
 
 /* ---------- UI layer (fixed px text, sits over the scene) ---------- */
-.ui { position: absolute; inset: 0; pointer-events: none; }
+/* UI column: full width on phones, a centered 450px column on wide windows so buttons stay near the scene */
+.ui {
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: min(100%, 450px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
 .ui > * { pointer-events: auto; }
 .ui-credits, .ui-toggle { position: absolute; top: max(8px, env(safe-area-inset-top)); }
 .ui-credits { left: 8px; }
