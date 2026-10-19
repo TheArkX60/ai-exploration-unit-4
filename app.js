@@ -45,9 +45,23 @@
   el.enter.addEventListener('click', () => {
     el.start.hidden = true;
     el.stage.hidden = false;
+    updateBatRange();
     setPhase('running');
     el.stage.focus({ preventScroll: true });
   });
+
+  // ---- Bat flight range ----
+  // The art is centered in the stage and scaled to fit, so the visible width in scene units depends on the
+  // window shape. Bats start and end just past the visible edges (+40 units covers the wingspan).
+  function updateBatRange() {
+    const w = el.stage.clientWidth;
+    const h = el.stage.clientHeight;
+    if (!w || !h) return;
+    const halfVisible = w / Math.min(w / 360, h / 640) / 2;
+    root.style.setProperty('--bat-left', `${180 - halfVisible - 40}px`);
+    root.style.setProperty('--bat-right', `${180 + halfVisible + 40}px`);
+  }
+  window.addEventListener('resize', updateBatRange);
 
   // ---- Play / Pause ----
   el.toggle.addEventListener('click', () => {

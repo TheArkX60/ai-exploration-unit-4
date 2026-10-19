@@ -216,7 +216,32 @@
         <ellipse class="fog fx fog-low"  cx="150" cy="540" rx="230" ry="30" fill="url(#fog-grad)"/>
         <ellipse class="fog fx fog-low2" cx="320" cy="552" rx="150" ry="24" fill="url(#fog-grad)"/>
       </g>
-      <g id="layer-particles" data-layer="particles" pointer-events="none"></g>
+      <g id="layer-particles" data-layer="particles" pointer-events="none">
+        <!-- Bats. Each is drawn centered on (0,0): the outer <g> sets its height and size, .bat-fly slides it
+             across (offscreen at rest, so reduced motion shows no bats), .bat-bob wobbles it up and down,
+             and .bat-wings flap. The shape is repeated inline (not <use>) so the shared pause rule reaches it. -->
+        <g transform="translate(0 185)">
+          <g class="bat-fly fly-ltr bat-a fx"><g class="bat-bob">
+            <path class="bat-shape bat-wing" d="M1 -1 C6 -9 15 -11 24 -5 C20 -4 19 0 16 3 C13 0 11 1 8 4 C6 1 3 1 1 3 Z"/><g transform="scale(-1 1)"><path class="bat-shape bat-wing" d="M1 -1 C6 -9 15 -11 24 -5 C20 -4 19 0 16 3 C13 0 11 1 8 4 C6 1 3 1 1 3 Z"/></g>
+            <ellipse class="bat-shape" cx="0" cy="1" rx="3" ry="5"/><circle class="bat-shape" cx="0" cy="-4" r="2.4"/>
+            <path class="bat-shape" d="M-2 -5.5 L-1.4 -8.5 L-0.2 -5.8 Z M2 -5.5 L1.4 -8.5 L0.2 -5.8 Z"/>
+          </g></g>
+        </g>
+        <g transform="translate(0 122) scale(0.8)">
+          <g class="bat-fly fly-rtl bat-b fx"><g class="bat-bob">
+            <path class="bat-shape bat-wing" d="M1 -1 C6 -9 15 -11 24 -5 C20 -4 19 0 16 3 C13 0 11 1 8 4 C6 1 3 1 1 3 Z"/><g transform="scale(-1 1)"><path class="bat-shape bat-wing" d="M1 -1 C6 -9 15 -11 24 -5 C20 -4 19 0 16 3 C13 0 11 1 8 4 C6 1 3 1 1 3 Z"/></g>
+            <ellipse class="bat-shape" cx="0" cy="1" rx="3" ry="5"/><circle class="bat-shape" cx="0" cy="-4" r="2.4"/>
+            <path class="bat-shape" d="M-2 -5.5 L-1.4 -8.5 L-0.2 -5.8 Z M2 -5.5 L1.4 -8.5 L0.2 -5.8 Z"/>
+          </g></g>
+        </g>
+        <g transform="translate(0 70) scale(0.6)">
+          <g class="bat-fly fly-ltr bat-c fx"><g class="bat-bob">
+            <path class="bat-shape bat-wing" d="M1 -1 C6 -9 15 -11 24 -5 C20 -4 19 0 16 3 C13 0 11 1 8 4 C6 1 3 1 1 3 Z"/><g transform="scale(-1 1)"><path class="bat-shape bat-wing" d="M1 -1 C6 -9 15 -11 24 -5 C20 -4 19 0 16 3 C13 0 11 1 8 4 C6 1 3 1 1 3 Z"/></g>
+            <ellipse class="bat-shape" cx="0" cy="1" rx="3" ry="5"/><circle class="bat-shape" cx="0" cy="-4" r="2.4"/>
+            <path class="bat-shape" d="M-2 -5.5 L-1.4 -8.5 L-0.2 -5.8 Z M2 -5.5 L1.4 -8.5 L0.2 -5.8 Z"/>
+          </g></g>
+        </g>
+      </g>
       <g id="layer-story" data-layer="story-overlay" pointer-events="none"></g>
     </svg>
 

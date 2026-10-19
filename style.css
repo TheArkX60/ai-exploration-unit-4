@@ -97,6 +97,33 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
   50%      { opacity: 0.1; transform: scale(0.6); }
 }
 
+/* Bats: each crosses the sky once per cycle, then rests offscreen until the next pass. The rest position
+   (no animation, i.e. reduced motion) is offscreen, so reduced motion shows no bats. The dark shape has a
+   thin rim in the stone-rim color so it reads against the dark sky, and as a silhouette across the moon. */
+.bat-shape { fill: var(--ground-dark); stroke: var(--stone-rim); stroke-width: 0.7; stroke-linejoin: round; }
+/* --bat-left / --bat-right are set by app.js to just past the visible screen edges (they depend on the
+   window shape), so a bat is on screen for most of each pass. The stagger below makes a first bat cross the
+   moon ~3 s after Enter, then a second at ~6 s and a third at ~15 s; after that they overlap irregularly.
+   Bats B and C sit in a scaled wrapper (0.8 and 0.6), which shrinks their travel too, so their distances
+   are divided by that scale to still reach the screen edges. */
+.bat-a { transform: translateX(var(--bat-left, -60px)); }
+.bat-b { transform: translateX(calc(var(--bat-left, -60px) / 0.8)); }
+.bat-c { transform: translateX(calc(var(--bat-left, -60px) / 0.6)); }
+/* All three share one 36 s cycle and start evenly spaced, so the pause between passes is the same every lap
+   (~2 s). Different cycle lengths drifted apart and made the gaps grow and shrink. Timeline after Enter:
+   A is over the moon at ~3 s and leaves at ~7 s; B flies ~9-20 s; C ~21-30 s; A returns at ~33 s. */
+.bat-a { animation: fly-a 36s linear infinite; animation-delay: -3.3s; }
+.bat-b { animation: fly-b 36s linear infinite; animation-delay: -27.2s; }
+.bat-c { animation: fly-c 36s linear infinite; animation-delay: -15s; }
+@keyframes fly-a { from { transform: translateX(var(--bat-left, -60px)); } 28% { transform: translateX(var(--bat-right, 420px)); } to { transform: translateX(var(--bat-right, 420px)); } }
+@keyframes fly-b { from { transform: translateX(calc(var(--bat-right, 420px) / 0.8)); } 30% { transform: translateX(calc(var(--bat-left, -60px) / 0.8)); } to { transform: translateX(calc(var(--bat-left, -60px) / 0.8)); } }
+@keyframes fly-c { from { transform: translateX(calc(var(--bat-left, -60px) / 0.6)); } 26% { transform: translateX(calc(var(--bat-right, 420px) / 0.6)); } to { transform: translateX(calc(var(--bat-right, 420px) / 0.6)); } }
+.bat-bob { animation: bat-bob 1.7s ease-in-out infinite alternate; }
+@keyframes bat-bob { from { transform: translateY(-8px); } to { transform: translateY(8px); } }
+/* Wings rotate up and down from the shoulder (the left wing is mirrored, so one rule flaps both) */
+.bat-wing { animation: bat-flap 0.42s ease-in-out infinite alternate; }
+@keyframes bat-flap { from { transform: rotate(-30deg); } to { transform: rotate(26deg); } }
+
 /* Fog: slow sideways drift with a slight rise and fall. Only transform moves (cheap on phones). Alternating
    direction keeps the loop seamless. Reduced motion removes the animation and leaves the fog still. */
 .fog { animation: fog-drift-a 38s ease-in-out infinite alternate; }
