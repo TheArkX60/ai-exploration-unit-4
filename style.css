@@ -310,6 +310,25 @@ html[data-reduced-motion="true"][data-story="pumpkins"] .s-ghost-rise { animatio
 html[data-reduced-motion="true"][data-story="pumpkins"] .s-puff { animation-name: s-puff-fade; }
 @keyframes s-puff-fade { 0% { opacity: 0; } 25% { opacity: 0.6; } 100% { opacity: 0; } }
 
+/* "A story is playing" while taps are ignored; then "Your turn" for a moment when control returns.
+   Same spot as the hint line (hints are hidden during stories). Its fades are CSS animations so Pause freezes them. */
+.story-note {
+  position: absolute;
+  top: calc(max(8px, env(safe-area-inset-top)) + 54px);
+  left: 12px; right: 12px;
+  margin: 0;
+  padding: 6px 12px;
+  text-align: center;
+  color: var(--hint);
+  background: var(--panel);
+  border-radius: 10px;
+  pointer-events: none;
+}
+.story-note[data-state="playing"] { animation: note-in 0.3s ease-out; }
+.story-note[data-state="done"] { animation: note-out 2.4s ease-in forwards; }    /* stays 1.6 s, fades over 0.8 s */
+@keyframes note-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes note-out { 0%, 66% { opacity: 1; } 100% { opacity: 0; } }
+
 /* Small, non-blocking note shown only if audio is blocked or fails to load; taps pass through it */
 .sound-note {
   position: absolute;

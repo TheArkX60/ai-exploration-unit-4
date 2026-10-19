@@ -105,6 +105,10 @@ Spec: "Story 1 build spec" in `spec.md` (Developer chose all four pumpkins small
 - Also changed: the tap glow on every object is now soft-edged instead of a flat disc.
 - Developer to judge by eye and ear: the four tones and the "nope" sound, the lingering lights, and whether 8 s before reset feels right.
 
+**Stage 2 review (Developer):** "It's good." Found: pressing Enter after mouse-clicking a pumpkin counted as a wrong tap (the clicked pumpkin kept keyboard focus, so Enter re-tapped it, and the same pumpkin twice is wrong); holding Enter would repeat it. Fix: a mouse or touch tap releases focus, and key auto-repeat is ignored (Agent verified with real clicks and key events: Enter after a click does nothing; Enter plus two auto-repeats counts once; keyboard Tab and Enter or Space still completes the sequence). Developer clarified that Enter after all four pumpkins doing nothing until the story ends is the expected behavior.
+
+**Stage 3, input lock and return (built, awaiting Developer review):** a note under the buttons says "A story is playing…" while taps are ignored, then "Your turn: keep exploring" for about 1.6 s and fades. Agent verified: note appears with the story, stays through Pause, taps work the moment the story ends, the closing fade freezes under Pause and completes after Play (normal and reduced motion), a replay takes over cleanly, text is 16 px, no errors.
+
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
 
 **Decision on flicker:** the flicker moves only on a soft halo behind each light; the window and lantern shapes stay solid. Reason: animating the hard-edged shapes (first `opacity`, then `fill-opacity`) coincided with a thin yellow sliver on the left of each light on the Developer's Edge display. The sliver remained with all animation stopped and with the halos hidden, so the flicker only made it more visible.

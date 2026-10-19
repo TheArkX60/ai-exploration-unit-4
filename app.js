@@ -13,6 +13,7 @@
     toggle: document.getElementById('toggle'),
     creditsOpen: document.getElementById('credits-open'),
     creditsClose: document.getElementById('credits-close'),
+    storyNote: document.getElementById('story-note'),
     credits: document.getElementById('credits'),
   };
 
@@ -130,6 +131,24 @@
     setStory,
     state: () => ({ phase: state.phase, story: state.story, reducedMotion: state.reducedMotion }),
   };
+
+  // ---- "Story playing" note (spec F5, S6) ----
+  // While a story plays, say why taps do nothing; when it ends, say control is back, then let the note fade away.
+  document.addEventListener('hollow:story', (event) => {
+    const note = el.storyNote;
+    note.hidden = false;
+    if (event.detail.story) {
+      note.textContent = 'A story is playing…';
+      note.dataset.state = 'playing';
+    } else {
+      note.textContent = 'Your turn: keep exploring';
+      note.dataset.state = 'done';
+    }
+  });
+  // The "done" note removes itself when its fade finishes (an animation event, so Pause can freeze it).
+  el.storyNote.addEventListener('animationend', () => {
+    if (el.storyNote.dataset.state === 'done') el.storyNote.hidden = true;
+  });
 
   // ---- Auto-pause when the page is hidden or the phone is locked (spec F6) ----
   // Same state as pressing Pause, and it stays paused until the User presses Play. That Play tap is also the
