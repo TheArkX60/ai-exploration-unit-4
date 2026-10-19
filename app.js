@@ -146,10 +146,16 @@
 
   function activate(hotspot) {
     if (state.phase !== 'running' || state.story) return;       // ignored while paused or while a story plays
+    console.info('[hollow-hill] tapped', hotspot.dataset.kind, hotspot.dataset.id);
+    // Announce the tap. A story's trigger rules (story.js) set detail.handled and give their own feedback;
+    // every other object gets a short flash and a soft tick so no tap is silent or invisible.
+    const detail = { kind: hotspot.dataset.kind, id: Number(hotspot.dataset.id), element: hotspot, handled: false };
+    document.dispatchEvent(new CustomEvent('hollow:tap', { detail }));
+    if (detail.handled) return;
     hotspot.classList.add('lit');
     clearTimeout(litTimers.get(hotspot));
     litTimers.set(hotspot, setTimeout(() => hotspot.classList.remove('lit'), LIT_MS));
-    console.info('[hollow-hill] tapped', hotspot.dataset.kind, hotspot.dataset.id);
+    if (window.hollowCues) window.hollowCues.tick();
   }
 
   el.scene.addEventListener('click', (e) => {

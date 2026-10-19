@@ -180,12 +180,13 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
   vector-effect: non-scaling-stroke;
 }
 .hotspot .glow {
-  fill: var(--glow);
+  fill: url(#tap-glow);                 /* soft-edged, like the story's glow */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
 }
-.hotspot.lit .glow { opacity: 0.6; }
+/* .lit is a short flash; .progress stays on until a trigger sequence completes or resets */
+.hotspot.lit .glow, .hotspot.progress .glow { opacity: 1; }
 
 .stone { fill: #1c0f33; stroke: var(--stone-rim); stroke-width: 2; }
 .hotspot.lit .stone { stroke: var(--hint); }
@@ -193,7 +194,18 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
 .pumpkin ellipse { fill: var(--pumpkin); transition: fill 0.2s; }
 .pumpkin .rib { fill: none; stroke: var(--ground-dark); stroke-opacity: 0.35; stroke-width: 2; stroke-linecap: round; }
 .pumpkin .stem { fill: #1c0f33; }
-.hotspot.lit .pumpkin ellipse { fill: var(--pumpkin-lit); }
+.hotspot.lit .pumpkin ellipse, .hotspot.progress .pumpkin ellipse { fill: var(--pumpkin-lit); }
+
+/* Wrong pumpkin: a quick wobble (removed on animationend). Reduced motion: a brief fade instead. */
+.hotspot.nope .pumpkin { transform-box: fill-box; transform-origin: 50% 100%; animation: nope-wobble 0.35s ease-in-out; }
+@keyframes nope-wobble {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  20% { transform: translateX(-3px) rotate(-4deg); }
+  50% { transform: translateX(3px) rotate(4deg); }
+  80% { transform: translateX(-2px) rotate(-2deg); }
+}
+html[data-reduced-motion="true"] .hotspot.nope .pumpkin { animation-name: nope-fade; }
+@keyframes nope-fade { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
 /* ---------- UI layer (fixed px text, sits over the scene) ---------- */
 /* UI column: full width on phones, a centered 450px column on wide windows so buttons stay near the scene */
@@ -239,7 +251,7 @@ html[data-story="pumpkins"] .s-clock { animation: s-clock 8s linear forwards; }
 html[data-story="pumpkins"] .s-face { animation: s-face 8s ease-in-out forwards, s-shake 0.18s ease-in-out 1.2s 9; }
 @keyframes s-face { 0% { opacity: 0; } 7.5% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
 html[data-story="pumpkins"] .s-glow { animation: s-glow 8s ease-in-out forwards; }
-@keyframes s-glow { 0% { opacity: 0; } 7.5% { opacity: 0.7; } 40% { opacity: 1; } 81% { opacity: 0.6; } 100% { opacity: 0; } }
+@keyframes s-glow { 0% { opacity: 0.5; } 7.5% { opacity: 0.7; } 40% { opacity: 1; } 81% { opacity: 0.6; } 100% { opacity: 0; } }
 
 /* Shake (1.2 s to 2.7 s): 9 quick rocks of 0.18 s each */
 html[data-story="pumpkins"] .pumpkin { transform-box: fill-box; transform-origin: 50% 100%; animation: s-shake 0.18s ease-in-out 1.2s 9; }

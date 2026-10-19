@@ -98,8 +98,9 @@ Test for each: H1-H6 by waiting and tapping with a shortened timer setting; F1-F
 
 **Story 1 build spec (approved by Developer 2026-10-19)**
 - Trigger: all four pumpkins, smallest to biggest (left to right). Wrong order, timeout and hints follow F1-F3 and H1-H6.
+- Trigger rules as built (stage 2, 2026-10-19): a correct tap gives that pumpkin's own tone (C5, E5, G5, C6) and a golden light-up that stays on as progress. The fourth correct tap clears the lights and starts the story. A wrong pumpkin (including the same one twice) plays a soft falling "nope", wobbles that pumpkin (a brief fade under reduced motion) and resets all progress; the wrong tap does not count toward a new sequence. A half-finished sequence is forgotten after 8 s with no taps on the scene; the 8 s count stops during Pause and during a story, and a tap on any object, not only pumpkins, restarts it. Tombstones and windows are not triggers yet: they flash and play a soft tick, and do not affect the pumpkin sequence. Keyboard (Tab, Enter, Space) works the same as touch.
 - Sounds are synthesized with Web Audio in `cues.js` (no external files, so no new credits): rising tap tones, a "nope" cue, and story cues (sparkles, a swelling hum, a pop, chimes, a smoke whoosh). No ghost voice for now.
-- Build stages, each tested before the next: (1) the sequence alone, started from the console with `hollowStory.play('pumpkins')`, or by opening the page with `#play-pumpkins` (temporary preview, removed at stage 2); (2) triggers and progress feedback; (3) input lock, "story playing" cue and return to the scene; (4) hints.
+- Build stages, each tested before the next: (1) the sequence alone, started from the console with `hollowStory.play('pumpkins')` (done); (2) triggers and progress feedback; (3) input lock, "story playing" cue and return to the scene; (4) hints.
 - Sequence (about 8 s, one 8 s clock; Pause freezes it):
   - 0-1 s: faces appear on all four pumpkins and glow.
   - 1.2-2.7 s: the pumpkins shake while the glow swells.

@@ -96,10 +96,32 @@
 
   const STORIES = { pumpkins: pumpkinStory };
 
+  const PUMPKIN_NOTES = [523.25, 659.25, 783.99, 1046.5];      // C5 E5 G5 C6: each pumpkin sounds higher than the last
+
   window.hollowCues = {
     story(name) {
       const a = audio();
       if (a && STORIES[name]) STORIES[name](a);
+    },
+    // Correct pumpkin number `step` (0 to 3) in the sequence.
+    tap(step) {
+      const a = audio();
+      if (!a) return;
+      const t = a.ctx.currentTime + 0.01;
+      bell(a, t, PUMPKIN_NOTES[step % PUMPKIN_NOTES.length], 0.16, 0.9);
+    },
+    // Wrong pumpkin: two soft, falling, muffled notes.
+    nope() {
+      const a = audio();
+      if (!a) return;
+      const t = a.ctx.currentTime + 0.01;
+      sweep(a, t, 'triangle', 330, 200, 0.14, 0.2, 900, 300);
+      sweep(a, t + 0.13, 'triangle', 247, 140, 0.14, 0.26, 700, 250);
+    },
+    // Any other object: a small muted tick, so every tap has some sound.
+    tick() {
+      const a = audio();
+      if (a) sweep(a, a.ctx.currentTime + 0.01, 'sine', 700, 480, 0.09, 0.09);
     },
   };
 })();

@@ -8,7 +8,7 @@
   <link rel="icon" href="data:,">
   <!-- ?v= is bumped before each push: GitHub Pages lets browsers cache files for 10 minutes, and a fresh
        index.html paired with a cached style.css/app.js broke the bats on a phone -->
-  <link rel="stylesheet" href="style.css?v=20261019-6">
+  <link rel="stylesheet" href="style.css?v=20261019-7">
 </head>
 <body>
 
@@ -57,6 +57,12 @@
           <path d="M328 480 C318 468 310 462 300 454 C312 460 322 466 331 470 Z"/>
         </g>
 
+        <!-- Soft light-up for tapped objects -->
+        <radialGradient id="tap-glow" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#ffc247" stop-opacity="0.85"/>
+          <stop offset="0.6" stop-color="#ffc247" stop-opacity="0.45"/>
+          <stop offset="1"   stop-color="#ffc247" stop-opacity="0"/>
+        </radialGradient>
         <!-- A jack-o-lantern face, centered on (0,0) with the eyes near y=-8; shown at each pumpkin's size by <use> -->
         <symbol id="pumpkin-face" viewBox="-30 -30 60 60">
           <path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/>
@@ -327,9 +333,9 @@
     <button id="credits-close" class="btn btn-primary" type="button">Close</button>
   </dialog>
 
-  <script src="audio.js?v=20261019-6"></script>
-  <script src="cues.js?v=20261019-6"></script>
-  <script src="app.js?v=20261019-6"></script>
-  <script src="story.js?v=20261019-6"></script>
+  <script src="audio.js?v=20261019-7"></script>
+  <script src="cues.js?v=20261019-7"></script>
+  <script src="app.js?v=20261019-7"></script>
+  <script src="story.js?v=20261019-7"></script>
 </body>
 </html>
