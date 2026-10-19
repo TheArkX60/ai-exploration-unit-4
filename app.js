@@ -160,7 +160,12 @@
 
   el.scene.addEventListener('click', (e) => {
     const hotspot = e.target.closest('.hotspot');
-    if (hotspot) activate(hotspot);
+    if (!hotspot) return;
+    activate(hotspot);
+    // A mouse or touch tap (detail > 0; a keyboard-made click has detail 0) should not leave the object holding
+    // keyboard focus: otherwise a later Enter or Space would silently tap it again, and in a trigger sequence
+    // that counts as a wrong tap.
+    if (e.detail > 0) hotspot.blur();
   });
 
   el.scene.addEventListener('keydown', (e) => {
@@ -168,6 +173,7 @@
     const hotspot = e.target.closest('.hotspot');
     if (!hotspot) return;
     e.preventDefault();               // stop Space from scrolling
+    if (e.repeat) return;             // holding the key down is one tap, not a stream of taps
     activate(hotspot);
   });
 
