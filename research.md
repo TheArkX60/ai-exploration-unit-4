@@ -71,9 +71,16 @@ Licenses were read on each sound's own page (not a search snippet). Measurements
 
 **Agent's suggestion (not evidence):** steady bed from "wind whoosh loop", gusts from IgnasD's Wind and Wind2 played at irregular intervals, owl from Breviceps. If the loop sounds too bright, too repetitive or hissy, fall back to wind synthesized with Web Audio (filtered noise), which `spec.md` already allows.
 
-### Assets (all unverified)
-- Ambient wind loop: not yet sourced.
-- Owl hoot: not yet sourced.
+### Assets
+**Approved by the Developer 2026-10-19 (ambient audio), in `assets/audio/`:**
+| File in the project | Source | License | Credit |
+|---|---|---|---|
+| `wind-gust-1.m4a`, `wind-gust-2.m4a`, `wind-gust-3.m4a` | "Wind" pack (Wind, Wind2, Wind3, M4A versions) by IgnasD, [OpenGameArt](https://opengameart.org/content/wind), uploaded 2015-03-04 | CC0 (license field read on the page) | Not required; named in the Credits panel anyway |
+| `owl-hoot.mp3` | "Owl Hoot" by Breviceps, [Freesound](https://freesound.org/people/Breviceps/sounds/465697/), uploaded 2019-04-05 | CC0 (license read on the page; uploader: "My sounds are Public Domain (CC0)") | Not required; named in the Credits panel anyway |
+
+Notes: (1) the owl file is Freesound's public 128 kbps MP3 preview of the sound, because the full WAV download needs a login; the sound and its CC0 license are the same, only the encoding differs, and a WAV could replace it later. (2) The wind files are single gusts, not loops, so `audio.js` chains them with overlap, random pitch and loudness to make a continuous bed. (3) The Developer chose these over the steady 6 s "wind whoosh loop" (SketchMan3) and the longer soundscapes.
+
+**Still unsourced:**
 - Story sound effects (tones, rumble, puff, creak, party sounds): not yet sourced.
 - For each: record source link, license (CC0 or public domain only) and any required credit here before use.
 

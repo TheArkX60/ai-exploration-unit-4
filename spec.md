@@ -113,14 +113,24 @@ Visuals: all original and drawn in code, no external visual assets.
 
 | Sound | Used for | Plan |
 |---|---|---|
-| Wind loop | Ambient bed | CC0/public-domain recording |
-| Owl hoot | Occasional ambient | CC0/public-domain recording |
+| Wind (approved 2026-10-19: IgnasD gust recordings) | Ambient bed. The files are single gusts, so they are chained: each starts when the previous is 55-75% done, with random pitch (±8%) and loudness, so there is always wind and it never repeats exactly | CC0, see `research.md` |
+| Owl hoot (approved 2026-10-19: Breviceps) | Occasional ambient: first hoot 10-16 s after Enter, then one every 22-44 s, panned left or right | CC0, see `research.md` |
 | Pumpkin tones (3) and "nope" cue | Story 1, F1 | CC0/public-domain, synthesize if none fits |
 | Pop, smoke puff | Story 1 | CC0/public-domain, synthesize if none fits |
 | Rumble, stone yawn, wobble | Story 2 | CC0/public-domain, synthesize if none fits |
 | Creak, door, party sounds, light snap | Story 3 | CC0/public-domain, synthesize if none fits |
 
 Rule: no sound is used until its source link, license, and required credit are recorded in `research.md` (Assets section) and the Developer approves it. Sourcing is done per checkpoint (ambient audio first), not all at once.
+
+### Acceptance checks for checkpoint 4 (ambient audio)
+- A1. No sound, and no audio context, before Enter; Enter starts it (iOS only allows sound after a tap).
+- A2. After Enter the wind is continuous: no silent gap longer than about a second, and consecutive gusts differ in pitch and loudness.
+- A3. The owl hoots occasionally (about one per 22-44 s, first at 10-16 s), panned left or right.
+- A4. Play/Pause: Pause silences everything, and the audio clock and scheduling stop with it; Play resumes the wind where it left off and starts no burst of queued sounds.
+- A5. Failure (F4): with the audio files blocked, or with no Web Audio, a small non-blocking "Sound unavailable" note appears and the scene, taps and Pause still work. A file that is slow or fails alone does not silence the others.
+- A6. Reduced motion does not affect sound.
+- A7. Credits panel names both sound sources.
+- Levels (`MASTER_GAIN`, `WIND_GAIN`, `OWL_GAIN` in `audio.js`) are provisional; the Developer tunes them by ear on a phone. Note the iPhone silent switch mutes web audio.
 
 ### Acceptance checks for this checkpoint
 1. Opens from a local preview with no console errors.

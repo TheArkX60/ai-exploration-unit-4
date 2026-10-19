@@ -32,6 +32,8 @@
   function setPhase(phase) {
     state.phase = phase;
     render();
+    // Announce the change so other parts (audio.js) follow the same single state rule.
+    document.dispatchEvent(new CustomEvent('hollow:phase', { detail: { phase } }));
     console.info('[hollow-hill] phase:', phase, '| reducedMotion:', state.reducedMotion);
   }
 
