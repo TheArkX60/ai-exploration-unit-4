@@ -55,7 +55,7 @@
           <path d="M328 480 C318 468 310 462 300 454 C312 460 322 466 331 470 Z"/>
         </g>
 
-        <radialGradient id="lantern-glow" cx="0.5" cy="0.5" r="0.5">
+        <radialGradient id="light-glow" cx="0.5" cy="0.5" r="0.5">
           <stop offset="0" stop-color="#ffc247" stop-opacity="0.55"/>
           <stop offset="1" stop-color="#ffc247" stop-opacity="0"/>
         </radialGradient>
@@ -109,16 +109,19 @@
         <rect x="238" y="338" width="24" height="46" rx="12" fill="#1c0f33"/>
 
         <g class="hotspot" role="button" tabindex="0" aria-label="Window 1" data-kind="window" data-id="1">
+          <circle class="halo fx flicker flicker-1" cx="200" cy="322" r="30"/>
           <circle class="glow" cx="200" cy="322" r="24"/>
           <rect class="art" fill="#ffb347" x="192" y="312" width="16" height="20" rx="2"/>
           <rect class="hit" x="176" y="298" width="48" height="48" rx="8"/>
         </g>
         <g class="hotspot" role="button" tabindex="0" aria-label="Window 2" data-kind="window" data-id="2">
+          <circle class="halo fx flicker flicker-2" cx="246" cy="258" r="30"/>
           <circle class="glow" cx="246" cy="258" r="24"/>
           <path class="art" fill="#ffb347" d="M237 270 L237 256 A9 9 0 0 1 255 256 L255 270 Z"/>
           <rect class="hit" x="222" y="234" width="48" height="48" rx="8"/>
         </g>
         <g class="hotspot" role="button" tabindex="0" aria-label="Window 3" data-kind="window" data-id="3">
+          <circle class="halo fx flicker flicker-3" cx="302" cy="326" r="30"/>
           <circle class="glow" cx="302" cy="326" r="24"/>
           <rect class="art" fill="#ffb347" x="294" y="316" width="16" height="20" rx="2"/>
           <rect class="hit" x="278" y="302" width="48" height="48" rx="8"/>
@@ -152,7 +155,7 @@
         <use href="#tree-shape" fill="#6b5a8e" stroke="#6b5a8e" stroke-width="3" stroke-linejoin="round"/>
         <use href="#tree-shape" fill="#0e0720"/>
         <path d="M268 416 V431" stroke="#0e0720" stroke-width="2" fill="none"/>
-        <circle cx="268" cy="441" r="30" fill="url(#lantern-glow)"/>
+        <circle class="halo fx flicker flicker-lantern" cx="268" cy="441" r="30"/>
         <rect x="261" y="431" width="14" height="20" rx="3" fill="#ffb347" stroke="#0e0720" stroke-width="2"/>
       </g>
 

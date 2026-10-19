@@ -21,7 +21,7 @@ Create your own checklist for the next few results, using the workflow in `brief
 Status: Approved by Developer 2026-10-19. Main risk across these: layout or layer structure that fails on real phones, found late. So deploy and check on a phone early.
 
 - [x] **1. Static shell.** Start screen, state variable, reduced-motion read, static SVG scene in layers, placeholder hotspots, Play/Pause stub, credits stub. Verify: acceptance checks 1-10 in `spec.md`, screenshots at three phone sizes.
-- [ ] **2. Early deploy.** Push to GitHub Pages and open the HTTPS URL on a physical phone. Verify: scene fits, Enter works, tap targets usable. Catches viewport/address-bar issues before effects are added.
+- [x] **2. Early deploy.** Push to GitHub Pages and open the HTTPS URL on a physical phone. Verify: scene fits, Enter works, tap targets usable. Catches viewport/address-bar issues before effects are added.
 - [ ] **3. Ambient visuals.** Fog, bats, flicker, leaves, stars, one at a time. Verify: each visible, loops cleanly, honors reduced motion, Play/Pause freezes them.
 - [ ] **4. Ambient audio.** Source and verify CC0 wind and owl (record in `research.md`), loop, gated by Enter, paused by Play/Pause.
 - [ ] **5. Story 1 (pumpkins)** as a standalone sequence first, then triggers, progress feedback, hints, input lock. Then Phase 1 playtest.
@@ -50,6 +50,20 @@ Live URL: https://thearkx60.github.io/ai-exploration-unit-4/ (GitHub Pages, `mai
 **Not yet checked:** Safari on iPhone with Reduce Motion enabled; keyboard use on a physical device.
 
 **Open for later:** the landscape overlay is not tied to Play/Pause; revisit when ambient effects and audio exist.
+
+### Checkpoint 3: ambient visuals (in progress, 2026-10-19)
+
+**Shared rule (done):** any element with class `fx` freezes under Play/Pause (`html[data-phase="paused"]`) and loses its animation under reduced motion (`html[data-reduced-motion="true"]`). New effects only add the class. See `style.css`.
+
+| Effect | Status | Verified |
+|---|---|---|
+| Stars (twinkle: opacity and size, varied timing) | Done | Agent: values change while running, frozen when paused, steady under reduced motion. Developer: visible (after opening the right copy of the files; a stale preview showed no stars). Strength raised once after the Developer could not see it. |
+| Window and lantern flicker | Done | Agent: halos dip to ~0.5 and recover, frozen when paused, steady under reduced motion, tapping still lights the window. Developer: "looks good". |
+| Fog, bats, leaves | Not started | |
+
+**Decision on flicker:** the flicker moves only on a soft halo behind each light; the window and lantern shapes stay solid. Reason: animating the hard-edged shapes (first `opacity`, then `fill-opacity`) coincided with a thin yellow sliver on the left of each light on the Developer's Edge display. The sliver remained with all animation stopped and with the halos hidden, so the flicker only made it more visible.
+
+**Open issue (accepted by the Developer, 2026-10-19):** a thin yellow sliver on the left edge of the windows and lantern, in Edge on the Developer's display, cleared by clicking a window. Not reproducible by the Agent in headless Chrome at 1x to 1.75x scale or in a real Edge window at 125% (zoomed captures), so the cause is unknown. Developer judged it not very noticeable and chose to move on. Revisit if playtesters mention it, starting with a native-size screenshot of the window.
 
 Keep implementation progress and verification here. Update `research.md` when evidence changes a decision and `spec.md` when intended behavior changes; link to those updates rather than duplicating them. Record consequential changes, not every small adjustment.
 

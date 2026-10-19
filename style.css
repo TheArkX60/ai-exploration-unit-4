@@ -97,6 +97,22 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
   50%      { opacity: 0.1; transform: scale(0.6); }
 }
 
+/* Window and lantern flicker: irregular, like candlelight. The flicker moves only on a soft halo (.halo)
+   behind each light; the window and lantern shapes stay solid. Animating the hard-edged window itself left
+   a sliver on its left edge in Edge (stale pixels; cleared on click), and a soft gradient edge cannot show that.
+   The tap light-up is a separate .glow circle, so the two never fight. Each light has its own length and offset. */
+.halo { fill: url(#light-glow); pointer-events: none; }
+.flicker { animation: flicker 5.3s linear infinite; }.flicker-1 { animation-duration: 5.3s; animation-delay: -1.1s; }
+.flicker-2 { animation-duration: 6.7s; animation-delay: -3.4s; }
+.flicker-3 { animation-duration: 4.1s; animation-delay: -0.6s; }
+.flicker-lantern { animation-duration: 3.3s; animation-delay: -2s; }
+@keyframes flicker {
+  0%, 100% { fill-opacity: 1; }
+  8%  { fill-opacity: 0.6; }   12% { fill-opacity: 1; }
+  30% { fill-opacity: 0.9; }   34% { fill-opacity: 0.45; }  38% { fill-opacity: 1; }
+  62% { fill-opacity: 0.95; }  70% { fill-opacity: 0.7; }   74% { fill-opacity: 1; }
+}
+
 /* ---------- Hotspots ---------- */
 .hotspot { cursor: pointer; outline: none; }
 .hotspot .hit { fill: transparent; stroke: none; }
