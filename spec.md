@@ -33,6 +33,8 @@ Scene "Hollow Hill", sheet-ghost character, three independent stories, idle hint
 ### Structure
 - Plain `index.html`, `style.css`, `app.js`; inline SVG for art; no build step. Hosted on GitHub Pages (public HTTPS).
 - One fixed-ratio stage, centered, scaled to fit the viewport height and width with no scrolling (SVG `viewBox` 360×640, `preserveAspectRatio="xMidYMid meet"` (whole scene always visible); revisit `slice` only if phone testing shows distracting margins).
+- Full-bleed stage (changed 2026-10-19 after iPhone Safari test showed side bars): the stage always fills the viewport; the 360×640 art is centered and sky, hills and ground overshoot the `viewBox` on every side. UI sits in a centered column (max 450 px).
+- Landscape (approved 2026-10-19): touch devices in landscape (`orientation: landscape`, height ≤ 500 px, `pointer: coarse`) show a full-screen "Turn your phone upright" message over the scene, because hotspots fall to ~29 px sideways. Desktop windows are unaffected. Not yet tied to Play/Pause (revisit when audio or effects exist).
 - App states: `start` -> `running` <-> `paused`. Later: `story` (other input disabled). One state variable drives all behavior so Play/Pause and story lock share a single rule.
 - Layers, back to front: sky (gradient, stars, moon) / far hill + house / graveyard + tree / pumpkin patch / fog slot / particle slot (leaves, bats) / story overlay slot / UI (hint line, Play/Pause, credits link).
 - Hotspots: pumpkins (3+), tombstones (3), windows (3+), each a real focusable element (`button` or SVG `role="button" tabindex="0"`) with a minimum 44x44 CSS px hit area, even if the drawing is smaller.

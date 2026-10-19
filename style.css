@@ -129,6 +129,26 @@ html[data-phase="paused"] .scene { filter: brightness(0.6); }
   pointer-events: none;
 }
 
+/* ---------- Landscape phone: ask for upright (scene is vertical-only; hotspots shrink below 44px sideways) ---------- */
+.rotate { display: none; }
+@media (orientation: landscape) and (max-height: 500px) and (pointer: coarse) {
+  .rotate {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 24px;
+    text-align: center;
+    color: var(--hint);
+    background: linear-gradient(var(--sky-top), var(--sky-bottom));
+  }
+  .rotate p { margin: 0; }
+}
+
 /* ---------- Credits dialog ---------- */
 .credits {
   max-width: min(90vw, 420px);
