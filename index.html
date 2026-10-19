@@ -55,6 +55,11 @@
           <path d="M328 480 C318 468 310 462 300 454 C312 460 322 466 331 470 Z"/>
         </g>
 
+        <radialGradient id="fog-grad" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#6b5a8e" stop-opacity="0.55"/>
+          <stop offset="0.6" stop-color="#6b5a8e" stop-opacity="0.25"/>
+          <stop offset="1"   stop-color="#6b5a8e" stop-opacity="0"/>
+        </radialGradient>
         <radialGradient id="light-glow" cx="0.5" cy="0.5" r="0.5">
           <stop offset="0" stop-color="#ffc247" stop-opacity="0.55"/>
           <stop offset="1" stop-color="#ffc247" stop-opacity="0"/>
@@ -202,7 +207,15 @@
       </g>
 
       <!-- 5-7. Empty slots reserved for later checkpoints -->
-      <g id="layer-fog" data-layer="fog" pointer-events="none"></g>
+      <g id="layer-fog" data-layer="fog" pointer-events="none">
+        <!-- Three soft bands at different heights, speeds and directions. Each is wider than the screen and
+             only drifts back and forth (alternate), so its fading ends never show and the loop has no jump. -->
+        <ellipse class="fog fx fog-high" cx="90"  cy="392" rx="190" ry="24" fill="url(#fog-grad)"/>
+        <ellipse class="fog fx fog-mid"  cx="260" cy="462" rx="210" ry="34" fill="url(#fog-grad)"/>
+        <ellipse class="fog fx fog-mid2" cx="60"  cy="480" rx="170" ry="26" fill="url(#fog-grad)"/>
+        <ellipse class="fog fx fog-low"  cx="150" cy="540" rx="230" ry="30" fill="url(#fog-grad)"/>
+        <ellipse class="fog fx fog-low2" cx="320" cy="552" rx="150" ry="24" fill="url(#fog-grad)"/>
+      </g>
       <g id="layer-particles" data-layer="particles" pointer-events="none"></g>
       <g id="layer-story" data-layer="story-overlay" pointer-events="none"></g>
     </svg>

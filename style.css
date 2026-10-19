@@ -97,6 +97,17 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
   50%      { opacity: 0.1; transform: scale(0.6); }
 }
 
+/* Fog: slow sideways drift with a slight rise and fall. Only transform moves (cheap on phones). Alternating
+   direction keeps the loop seamless. Reduced motion removes the animation and leaves the fog still. */
+.fog { animation: fog-drift-a 38s ease-in-out infinite alternate; }
+.fog-high { animation-duration: 64s; animation-name: fog-drift-a; }
+.fog-mid  { animation-duration: 46s; animation-name: fog-drift-b; }
+.fog-low  { animation-duration: 54s; animation-name: fog-drift-a; animation-delay: -20s; }
+.fog-mid2 { animation-duration: 58s; animation-name: fog-drift-a; animation-delay: -31s; }
+.fog-low2 { animation-duration: 42s; animation-name: fog-drift-b; animation-delay: -12s; }
+@keyframes fog-drift-a { from { transform: translate(-55px, 0); } to { transform: translate(55px, -5px); } }
+@keyframes fog-drift-b { from { transform: translate(50px, -4px); } to { transform: translate(-50px, 4px); } }
+
 /* Window and lantern flicker: irregular, like candlelight. The flicker moves only on a soft halo (.halo)
    behind each light; the window and lantern shapes stay solid. Animating the hard-edged window itself left
    a sliver on its left edge in Edge (stale pixels; cleared on click), and a soft gradient edge cannot show that.
