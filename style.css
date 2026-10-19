@@ -235,7 +235,8 @@ html[data-story="pumpkins"] .s-clock { animation: s-clock 8s linear forwards; }
 @keyframes s-clock { from { transform: translateX(0); } to { transform: translateX(1px); } }
 
 /* Faces and glow: fade in, glow swells to the pop, then everything fades back out */
-html[data-story="pumpkins"] .s-face { animation: s-face 8s ease-in-out forwards; }
+/* The faces shake together with the pumpkins (same keyframes, delay and count as .pumpkin below) */
+html[data-story="pumpkins"] .s-face { animation: s-face 8s ease-in-out forwards, s-shake 0.18s ease-in-out 1.2s 9; }
 @keyframes s-face { 0% { opacity: 0; } 7.5% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
 html[data-story="pumpkins"] .s-glow { animation: s-glow 8s ease-in-out forwards; }
 @keyframes s-glow { 0% { opacity: 0; } 7.5% { opacity: 0.7; } 40% { opacity: 1; } 81% { opacity: 0.6; } 100% { opacity: 0; } }
@@ -287,6 +288,7 @@ html[data-story="pumpkins"] .s-puff:nth-child(6) { animation-delay: 5.7s; }
 }
 
 /* Reduced motion (F7): no shaking, flying, rising or growing. Faces and glow still fade; the ghost and smoke fade in place. */
+html[data-reduced-motion="true"][data-story="pumpkins"] .s-face { animation: s-face 8s ease-in-out forwards; }
 html[data-reduced-motion="true"][data-story="pumpkins"] .pumpkin,
 html[data-reduced-motion="true"][data-story="pumpkins"] .s-ghost-wobble,
 html[data-reduced-motion="true"][data-story="pumpkins"] .s-lid { animation: none; }

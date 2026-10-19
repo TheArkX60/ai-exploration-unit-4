@@ -8,7 +8,7 @@
   <link rel="icon" href="data:,">
   <!-- ?v= is bumped before each push: GitHub Pages lets browsers cache files for 10 minutes, and a fresh
        index.html paired with a cached style.css/app.js broke the bats on a phone -->
-  <link rel="stylesheet" href="style.css?v=20261019-5">
+  <link rel="stylesheet" href="style.css?v=20261019-6">
 </head>
 <body>
 
@@ -57,6 +57,10 @@
           <path d="M328 480 C318 468 310 462 300 454 C312 460 322 466 331 470 Z"/>
         </g>
 
+        <!-- A jack-o-lantern face, centered on (0,0) with the eyes near y=-8; shown at each pumpkin's size by <use> -->
+        <symbol id="pumpkin-face" viewBox="-30 -30 60 60">
+          <path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/>
+        </symbol>
         <!-- Soft-edged smoke: a lavender-gray gradient that fades to nothing at the rim -->
         <radialGradient id="puff-grad" cx="0.5" cy="0.5" r="0.5">
           <stop offset="0"   stop-color="#9c8cc0" stop-opacity="0.95"/>
@@ -263,10 +267,12 @@
           <circle class="s-glow" cx="118" cy="594" r="48" fill="url(#light-glow)"/>
           <circle class="s-glow" cx="204" cy="600" r="64" fill="url(#light-glow)"/>
           <circle class="s-glow" cx="294" cy="592" r="82" fill="url(#light-glow)"/>
-          <g class="s-face" transform="translate(50 602) scale(0.59)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
-          <g class="s-face" transform="translate(118 594) scale(0.76)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
-          <g class="s-face" transform="translate(204 600) scale(1)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
-          <g class="s-face" transform="translate(294 592) scale(1.28)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
+          <!-- Faces are sized with width/height (not a transform attribute) so CSS can shake them with the same
+               numbers as the pumpkin underneath. transform-origin is each pumpkin's bottom center, like .pumpkin. -->
+          <use class="s-face" href="#pumpkin-face" x="32.3"  y="584.3" width="35.4" height="35.4" style="transform-origin: 50px 615px"/>
+          <use class="s-face" href="#pumpkin-face" x="95.2"  y="571.2" width="45.6" height="45.6" style="transform-origin: 118px 611px"/>
+          <use class="s-face" href="#pumpkin-face" x="174"   y="570"   width="60"   height="60"   style="transform-origin: 204px 622px"/>
+          <use class="s-face" href="#pumpkin-face" x="255.6" y="553.6" width="76.8" height="76.8" style="transform-origin: 294px 622px"/>
 
           <!-- The biggest pumpkin: dark opening, ghost rising out of it (clipped at the opening's rim), lid that pops off -->
           <ellipse class="s-opening" cx="294" cy="566" rx="24" ry="8" fill="#0e0720"/>
@@ -321,9 +327,9 @@
     <button id="credits-close" class="btn btn-primary" type="button">Close</button>
   </dialog>
 
-  <script src="audio.js?v=20261019-5"></script>
-  <script src="cues.js?v=20261019-5"></script>
-  <script src="app.js?v=20261019-5"></script>
-  <script src="story.js?v=20261019-5"></script>
+  <script src="audio.js?v=20261019-6"></script>
+  <script src="cues.js?v=20261019-6"></script>
+  <script src="app.js?v=20261019-6"></script>
+  <script src="story.js?v=20261019-6"></script>
 </body>
 </html>
