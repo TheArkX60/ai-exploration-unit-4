@@ -36,3 +36,8 @@ When user directs agent to save transcript, save entire text of current session 
 # Project
 
 Fill in as the project takes shape: how to run it locally, how to test it, and any commands or structure that aren't obvious from the code.
+
+- Run locally: `python -m http.server 8765` in the project root, then open http://127.0.0.1:8765/ (or open `index.html` directly). Use a hard refresh (Ctrl+Shift+R); stale caches have fooled us before.
+- Deployed to GitHub Pages (`main`, root): https://thearkx60.github.io/ai-exploration-unit-4/
+- **Before every push, bump the `?v=` on `style.css` and `app.js` in `index.html`.** Pages caches files for 10 minutes, and a new `index.html` with a cached stylesheet broke the bats on a phone.
+- Ambient effects: give any element with ambient animation the class `fx`; the Play/Pause and reduced-motion rules in `style.css` then cover it.

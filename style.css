@@ -124,6 +124,25 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
 .bat-wing { animation: bat-flap 0.42s ease-in-out infinite alternate; }
 @keyframes bat-flap { from { transform: rotate(-30deg); } to { transform: rotate(26deg); } }
 
+/* Leaves (built in app.js). Three nested motions: .leaf-fall slides down the visible height (range set by
+   app.js), .leaf-sway drifts side to side, .leaf-spin tumbles. Per-leaf timing comes from inline custom
+   properties. At rest (no animation, i.e. reduced motion) a leaf sits above the screen, so none show. */
+.leaf-fall {
+  transform: translateY(var(--fall-top, -40px));
+  animation: leaf-fall var(--fall, 22s) linear var(--delay, 0s) infinite;
+}
+@keyframes leaf-fall {
+  from { transform: translateY(var(--fall-top, -40px)); }
+  to   { transform: translateY(var(--fall-bottom, 680px)); }
+}
+.leaf-sway { animation: leaf-sway var(--sway-dur, 3s) ease-in-out var(--sway-delay, 0s) infinite alternate; }
+@keyframes leaf-sway {
+  from { transform: translateX(calc(var(--sway, 16px) * -1)); }
+  to   { transform: translateX(var(--sway, 16px)); }
+}
+.leaf-spin { animation: leaf-spin var(--spin-dur, 2.4s) ease-in-out infinite alternate; }
+@keyframes leaf-spin { from { transform: rotate(-55deg); } to { transform: rotate(55deg); } }
+
 /* Fog: slow sideways drift with a slight rise and fall. Only transform moves (cheap on phones). Alternating
    direction keeps the loop seamless. Reduced motion removes the animation and leaves the fog still. */
 .fog { animation: fog-drift-a 38s ease-in-out infinite alternate; }
