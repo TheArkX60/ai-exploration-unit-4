@@ -51,7 +51,7 @@ Live URL: https://thearkx60.github.io/ai-exploration-unit-4/ (GitHub Pages, `mai
 
 **Open for later:** the landscape overlay is not tied to Play/Pause; revisit when ambient effects and audio exist.
 
-### Checkpoint 3: ambient visuals (in progress, 2026-10-19)
+### Checkpoint 3: ambient visuals (all five effects built and phone-checked, 2026-10-19; awaiting Developer tick)
 
 **Shared rule (done):** any element with class `fx` freezes under Play/Pause (`html[data-phase="paused"]`) and loses its animation under reduced motion (`html[data-reduced-motion="true"]`). New effects only add the class. See `style.css`.
 
@@ -59,7 +59,22 @@ Live URL: https://thearkx60.github.io/ai-exploration-unit-4/ (GitHub Pages, `mai
 |---|---|---|
 | Stars (twinkle: opacity and size, varied timing) | Done | Agent: values change while running, frozen when paused, steady under reduced motion. Developer: visible (after opening the right copy of the files; a stale preview showed no stars). Strength raised once after the Developer could not see it. |
 | Window and lantern flicker | Done | Agent: halos dip to ~0.5 and recover, frozen when paused, steady under reduced motion, tapping still lights the window. Developer: "looks good". |
-| Fog, bats, leaves | Not started | |
+| Fog (five soft drifting patches, in the fog layer) | Done | Agent: patches move, frozen when paused, still under reduced motion, taps pass through to hotspots. Developer: "I like it"; fog stops at the house base as intended. First version read as three full-width stripes, so bands were shortened and staggered. |
+| Bats (three, in the particle layer) | Done | Agent: wings flap, frozen when paused, offscreen under reduced motion, on screen ~76% of a 110 s run with gaps of 2.3-3.3 s. Developer: "looks good". |
+| Leaves (twelve, built from a fixed table in `app.js`) | Done | Agent: all falling at ~30-45 scene units/s, frozen when paused, none visible under reduced motion, taps still reach pumpkins. Developer on iPhone: "Everything looks good." |
+
+**Developer observations and changes during checkpoint 3:**
+| What the Developer saw | Interpretation | Change | How verified |
+|---|---|---|---|
+| Stars: "I cannot see that change" | Two causes: the twinkle was subtle (100% to 25% opacity on ~2 px stars), and the browser was showing a stale copy | Dimming deepened to 10% and stars also change size; Developer opened the file directly and saw it | Zoomed captures 1.5 s apart; Developer saw the effect |
+| Bats: saw one bat, then none | Bats flew a range far wider than the phone, so most of each pass was offscreen (about 13 s empty after the first) | Range now follows the visible screen edges (set in `app.js`); shorter cycles | 75 s sampled run: on screen 85% of the time |
+| Bat wings "look funny" | Flap squashed and flipped the wing shape, so it collapsed to a thin sliver midway | Wings now rotate up and down from the shoulder | Frozen frames at three flap phases |
+| Bat gaps "inconsistent", longer over time | Three different cycle lengths (28/37/49 s) drifted apart | One shared 36 s cycle, evenly staggered | 110 s run: nine gaps, all 2.3-3.3 s |
+| iPhone: "three bats on the left", not moving | New `index.html` paired with a cached older `style.css` (GitHub Pages caches 10 min), so bats had no styles or motion | `?v=` version stamps on `style.css` and `app.js`, bumped before each push (rule in `AGENTS.md`) | Reproduced in WebKit with the old stylesheet; then confirmed bats and leaves move on the live URL in WebKit; Developer confirmed on iPhone |
+
+**Testing note:** since the cache bug, Agent checks also run in Playwright WebKit (iPhone's engine) in the scratchpad, not only in Chrome.
+
+**Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
 
 **Decision on flicker:** the flicker moves only on a soft halo behind each light; the window and lantern shapes stay solid. Reason: animating the hard-edged shapes (first `opacity`, then `fill-opacity`) coincided with a thin yellow sliver on the left of each light on the Developer's Edge display. The sliver remained with all animation stopped and with the halos hidden, so the flicker only made it more visible.
 
