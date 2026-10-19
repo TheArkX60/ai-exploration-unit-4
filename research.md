@@ -47,6 +47,30 @@ Investigate unfamiliar techniques or asset sources as needed. Verify usage terms
 
 **Possible later extra (not in first build):** a small "ghosts found: n/3" counter. It would show progress without changing what any story plays, so it adds little coupling. Revisit after the three stories work.
 
+### Ambient audio candidates (found 2026-10-19; NOT approved, nothing is used until the Developer approves)
+
+Licenses were read on each sound's own page (not a search snippet). Measurements are from decoding the file in a browser (levels in dB relative to full scale; the Agent cannot judge how any of them sounds, so listening is the Developer's call). CC0 requires no credit; the Credits panel will still name sources as a courtesy.
+
+**Wind**
+| Candidate | Source and license | Measured | Notes |
+|---|---|---|---|
+| "wind whoosh loop" by SketchMan3 | [OpenGameArt](https://opengameart.org/content/wind-whoosh-loop), CC0, 252 KB OGG, uploaded 2019-07-16 | 6.0 s, stereo, very steady (about 1 dB variation), start and end identical so the loop has no jump, quiet (about -30 dB) | Page says it is a looped section of wind from another recording, EQ'd to bring out the highs, so it may sound bright or hissy. 6 s is short and may sound repetitive. |
+| "Wind" pack by IgnasD (Wind, Wind2, Wind3) | [OpenGameArt](https://opengameart.org/content/wind), CC0, 264 KB zip with OGG and M4A of each, uploaded 2015-03-04 | Wind and Wind2: about 6.7 s mono; swell up and fade (one gust each); Wind3: 1.7 s | Not loops: single gusts. Idea: play them at irregular intervals over a steady bed. M4A versions give Safari-safe files. |
+| "Ghost Town Night Ambient" by szegvari | [Freesound](https://freesound.org/people/szegvari/sounds/557193/), CC0 | 2 min 30 s, stereo, fades in from near silence and out to near silence, loudness varies by about 12 dB | A full soundscape, not plain wind; contents not checked by ear. Larger file (3.5 MB preview). |
+| "Little dark house soundscape" by szegvari | [Freesound](https://freesound.org/people/szegvari/sounds/557191/), CC0 | 2 min 29 s, large loudness swings (events) | Probably too eventful for a steady bed. |
+| "Wind.wav" by chrscrwfrd18 | [Freesound](https://freesound.org/people/chrscrwfrd18/sounds/156992/), CC0 | 7+ MB even as a compressed preview (several minutes) | Likely too large for a phone bed; not examined further. |
+
+**Owl**
+| Candidate | Source and license | Measured | Notes |
+|---|---|---|---|
+| "Owl Hoot" by Breviceps | [Freesound](https://freesound.org/people/Breviceps/sounds/465697/), CC0 (uploader: "My sounds are Public Domain (CC0)"), WAV, uploaded 2019-04-05 | 4.4 s, stereo, very quiet (peak about -28 dB, so it needs about +20 dB of gain, which also raises noise) | Tags tawny, hooting, night. Recorded with a phone. |
+| "Owl Slow Hoot" by dandman3039 | [Freesound](https://freesound.org/people/dandman3039/sounds/528623/), CC0, M4A, uploaded 2020-07-21 | 33.7 s forest recording (not measured) | "Large owl hooting high up in a tree in Vermont." Longer; would need trimming to one hoot. |
+| "Owl-3" by SyntaxSeed | [Freesound](https://freesound.org/people/SyntaxSeed/sounds/871239/), CC0, WAV | 38.9 s, mono, 22 kHz | Distant hoots with crickets and neighbourhood noise in the background. |
+
+**Not usable (checked):** OpenGameArt "Barn Owl Screech" is CC BY-SA 4.0 (needs credit and share-alike); Xeno-canto tawny owl is CC BY-NC-SA 4.0 (non-commercial, not allowed); the itch.io "Owl hooting sound effect" page states no license.
+
+**Agent's suggestion (not evidence):** steady bed from "wind whoosh loop", gusts from IgnasD's Wind and Wind2 played at irregular intervals, owl from Breviceps. If the loop sounds too bright, too repetitive or hissy, fall back to wind synthesized with Web Audio (filtered noise), which `spec.md` already allows.
+
 ### Assets (all unverified)
 - Ambient wind loop: not yet sourced.
 - Owl hoot: not yet sourced.
