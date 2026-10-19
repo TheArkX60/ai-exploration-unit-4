@@ -180,6 +180,9 @@
 
   // Read-only view for testing and troubleshooting from the browser console.
   window.hollowAudio = {
+    // For cues.js: the shared audio context and the output every sound is mixed into (null until Enter).
+    context: () => ctx,
+    output: () => master,
     status: () => ({ started, state: ctx && ctx.state, time: ctx && ctx.currentTime, ...counts, loaded: windBuffers.filter(Boolean).length + (owlBuffer ? 1 : 0) }),
     levelDb: () => {
       if (!analyser) return -Infinity;

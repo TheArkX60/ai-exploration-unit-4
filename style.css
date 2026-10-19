@@ -83,7 +83,8 @@ html[data-phase="paused"] .scene { filter: brightness(0.6); }
    Put class "fx" on any element whose animations are ambient (children included).
    - Paused (Play/Pause or later auto-pause): animations freeze in place.
    - Reduced motion: animations are removed, leaving the static look. */
-html[data-phase="paused"] :is(.fx, .fx *) { animation-play-state: paused; }
+/* !important: an element's own `animation:` shorthand (later in this file) would otherwise reset the state to running */
+html[data-phase="paused"] :is(.fx, .fx *, .sfx, .sfx *, .pumpkin) { animation-play-state: paused !important; }
 html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
 
 /* Stars: gentle twinkle, durations and offsets varied by position so they never pulse together */
@@ -219,6 +220,81 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
   border-radius: 10px;
   pointer-events: none;
 }
+
+/* ---------- Story 1: pumpkins (8 s timeline) ----------
+   Story art lives in #layer-story (class "sfx": it freezes on Pause, but unlike .fx it is NOT removed under
+   reduced motion; stories must still play, with fades instead of movement). Everything is invisible until
+   <html data-story="pumpkins"> is set. Percentages are of 8 s (1% = 0.08 s):
+   0.6 s = 7.5%, 1.2 s = 15%, 2.8 s = 35%, 3.0 s = 37.5%, 3.9 s = 48.75%, 5.4 s = 67.5%, 5.9 s = 73.75%, 6.8 s = 85%. */
+.s-glow, .s-face, .s-opening, .s-lid, .s-puff { opacity: 0; }
+.s-ghost-rise { transform: translateY(80px); }       /* far enough below the clip that neither the ghost nor its hat shows */
+.s-lid, .s-puff { transform-box: fill-box; transform-origin: center; }
+.s-ghost-wobble { transform-origin: 294px 566px; }   /* rocks around the opening's rim */
+
+html[data-story="pumpkins"] .s-clock { animation: s-clock 8s linear forwards; }
+@keyframes s-clock { from { transform: translateX(0); } to { transform: translateX(1px); } }
+
+/* Faces and glow: fade in, glow swells to the pop, then everything fades back out */
+html[data-story="pumpkins"] .s-face { animation: s-face 8s ease-in-out forwards; }
+@keyframes s-face { 0% { opacity: 0; } 7.5% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; } }
+html[data-story="pumpkins"] .s-glow { animation: s-glow 8s ease-in-out forwards; }
+@keyframes s-glow { 0% { opacity: 0; } 7.5% { opacity: 0.7; } 40% { opacity: 1; } 81% { opacity: 0.6; } 100% { opacity: 0; } }
+
+/* Shake (1.2 s to 2.7 s): 9 quick rocks of 0.18 s each */
+html[data-story="pumpkins"] .pumpkin { transform-box: fill-box; transform-origin: 50% 100%; animation: s-shake 0.18s ease-in-out 1.2s 9; }
+@keyframes s-shake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25% { transform: translateX(-1.6px) rotate(-2.5deg); }
+  75% { transform: translateX(1.6px) rotate(2.5deg); }
+}
+
+/* The lid appears on top of the biggest pumpkin at 2.8 s (same orange, so it reads as the pumpkin's own top) and flies off */
+html[data-story="pumpkins"] .s-lid { animation: s-lid 8s ease-out forwards; }
+@keyframes s-lid {
+  0%, 34.9% { opacity: 0; transform: translate(0, 0) rotate(0); }
+  35%   { opacity: 1; transform: translate(0, 0) rotate(0); }
+  40%   { opacity: 1; transform: translate(10px, -46px) rotate(35deg); }
+  44%   { opacity: 1; transform: translate(26px, -30px) rotate(70deg); }
+  48%   { opacity: 0; transform: translate(34px, -6px) rotate(110deg); }
+  100%  { opacity: 0; }
+}
+html[data-story="pumpkins"] .s-opening { animation: s-opening 8s linear forwards; }
+@keyframes s-opening { 0%, 34.9% { opacity: 0; } 35% { opacity: 1; } 78% { opacity: 1; } 88% { opacity: 0; } 100% { opacity: 0; } }
+
+/* Ghost rises (3.0-3.9 s), rocks (3.9-5.4 s), sinks back (5.4-5.9 s) */
+html[data-story="pumpkins"] .s-ghost-rise { animation: s-ghost-rise 8s ease-in-out forwards; }
+@keyframes s-ghost-rise {
+  0%, 37.5% { transform: translateY(80px); }
+  48.75% { transform: translateY(-2px); }
+  52% { transform: translateY(0); }
+  67.5% { transform: translateY(0); }
+  73.75%, 100% { transform: translateY(80px); }
+}
+html[data-story="pumpkins"] .s-ghost-wobble { animation: s-wobble 0.75s ease-in-out 3.9s 2; }
+@keyframes s-wobble { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-7deg); } 75% { transform: rotate(7deg); } }
+
+/* Smoke puff (5.4 s on): six puffs grow and fade, each starting a moment after the last */
+html[data-story="pumpkins"] .s-puff { animation: s-puff 1.5s ease-out 5.4s backwards; }
+html[data-story="pumpkins"] .s-puff:nth-child(2) { animation-delay: 5.46s; }
+html[data-story="pumpkins"] .s-puff:nth-child(3) { animation-delay: 5.52s; }
+html[data-story="pumpkins"] .s-puff:nth-child(4) { animation-delay: 5.58s; }
+html[data-story="pumpkins"] .s-puff:nth-child(5) { animation-delay: 5.64s; }
+html[data-story="pumpkins"] .s-puff:nth-child(6) { animation-delay: 5.7s; }
+@keyframes s-puff {
+  0% { opacity: 0; transform: scale(0.2); }
+  25% { opacity: 0.8; }
+  100% { opacity: 0; transform: scale(2.2) translateY(-10px); }
+}
+
+/* Reduced motion (F7): no shaking, flying, rising or growing. Faces and glow still fade; the ghost and smoke fade in place. */
+html[data-reduced-motion="true"][data-story="pumpkins"] .pumpkin,
+html[data-reduced-motion="true"][data-story="pumpkins"] .s-ghost-wobble,
+html[data-reduced-motion="true"][data-story="pumpkins"] .s-lid { animation: none; }
+html[data-reduced-motion="true"] .s-ghost-rise { transform: none; opacity: 0; }
+html[data-reduced-motion="true"][data-story="pumpkins"] .s-ghost-rise { animation: s-ghost-fade 8s linear forwards; }
+@keyframes s-ghost-fade { 0%, 37.5% { opacity: 0; } 45% { opacity: 1; } 67.5% { opacity: 1; } 75%, 100% { opacity: 0; } }
+html[data-reduced-motion="true"][data-story="pumpkins"] .s-puff { animation-name: s-puff-fade; }
+@keyframes s-puff-fade { 0% { opacity: 0; } 25% { opacity: 0.6; } 100% { opacity: 0; } }
 
 /* Small, non-blocking note shown only if audio is blocked or fails to load; taps pass through it */
 .sound-note {

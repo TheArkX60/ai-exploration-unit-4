@@ -35,7 +35,7 @@ Scene "Hollow Hill", sheet-ghost character, three independent stories, idle hint
 - One fixed-ratio stage, centered, scaled to fit the viewport height and width with no scrolling (SVG `viewBox` 360×640, `preserveAspectRatio="xMidYMid meet"` (whole scene always visible); revisit `slice` only if phone testing shows distracting margins).
 - Full-bleed stage (changed 2026-10-19 after iPhone Safari test showed side bars): the stage always fills the viewport; the 360×640 art is centered and sky, hills and ground overshoot the `viewBox` on every side. UI sits in a centered column (max 450 px).
 - Landscape (approved 2026-10-19): touch devices in landscape (`orientation: landscape`, height ≤ 500 px, `pointer: coarse`) show a full-screen "Turn your phone upright" message over the scene, because hotspots fall to ~29 px sideways. Desktop windows are unaffected. Not yet tied to Play/Pause (revisit when audio or effects exist).
-- App states: `start` -> `running` <-> `paused`. Later: `story` (other input disabled). One state variable drives all behavior so Play/Pause and story lock share a single rule.
+- App states: `start` -> `running` <-> `paused`, plus a story flag (`state.story`, also `data-story` on `<html>`) that is set while a story plays. Scene taps are accepted only when the phase is `running` and no story is playing. Play/Pause works during a story and pauses it mid-sequence: story animations and sounds freeze together and resume where they stopped. (Refined 2026-10-19 from a single `story` phase, because a paused story must remember that it is mid-story.)
 - Layers, back to front: sky (gradient, stars, moon) / far hill + house / graveyard + tree / pumpkin patch / fog slot / particle slot (leaves, bats) / story overlay slot / UI (hint line, Play/Pause, credits link).
 - Hotspots: pumpkins (3+), tombstones (3), windows (3+), each a real focusable element (`button` or SVG `role="button" tabindex="0"`) with a minimum 44x44 CSS px hit area, even if the drawing is smaller.
 
@@ -95,6 +95,20 @@ Test for each: H1-H6 by waiting and tapping with a shortened timer setting; F1-F
 
 **Story-specific checks**
 - Pumpkin Patch: pumpkins tapped smallest to biggest, each with a different tone and light-up. Beats: grins and glows -> biggest pops open -> ghost peeks out -> smoke puff -> pumpkins revert. Pass: pumpkins return to their original look.
+
+**Story 1 build spec (approved by Developer 2026-10-19)**
+- Trigger: all four pumpkins, smallest to biggest (left to right). Wrong order, timeout and hints follow F1-F3 and H1-H6.
+- Sounds are synthesized with Web Audio in `cues.js` (no external files, so no new credits): rising tap tones, a "nope" cue, and story cues (sparkles, a swelling hum, a pop, chimes, a smoke whoosh). No ghost voice for now.
+- Build stages, each tested before the next: (1) the sequence alone, started from the console with `hollowStory.play('pumpkins')`, or by opening the page with `#play-pumpkins` (temporary preview, removed at stage 2); (2) triggers and progress feedback; (3) input lock, "story playing" cue and return to the scene; (4) hints.
+- Sequence (about 8 s, one 8 s clock; Pause freezes it):
+  - 0-1 s: faces appear on all four pumpkins and glow.
+  - 1.2-2.7 s: the pumpkins shake while the glow swells.
+  - 2.8 s: the biggest pumpkin's lid pops off with a "pop"; the opening shows dark inside.
+  - 3.0-3.9 s: the party-hat ghost rises out of the opening; 3.9-5.4 s it wobbles.
+  - 5.4-5.9 s: the ghost sinks back as a smoke puff (5.4-7 s) covers the opening.
+  - 6.8-8 s: faces and glow fade, leaving the pumpkins as they were.
+- Reduced motion (F7): no shaking, flying or rising. Faces and glow still fade, the ghost fades in and out in place, the smoke only fades, and sounds still play.
+- Pass: it can be played repeatedly without reloading and looks identical each time; afterwards the patch looks exactly as before.
 - Graveyard: three tombstones tapped in a rhythm (rhythm tolerance is open; tune in playtest, with a generous window). Beats: ground rumbles -> tombstones yawn -> three little ghosts wobble-dance -> sink back. Pass: stones return to their original look.
 - The House: windows tapped in the order they flicker (flicker cue replays when needed; exact rule open). Beats: house shudders -> windows blink like eyes -> door opens on a tiny ghost party -> lights snap off then on. Pass: house returns to its original look.
 

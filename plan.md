@@ -23,7 +23,7 @@ Status: Approved by Developer 2026-10-19. Main risk across these: layout or laye
 - [x] **1. Static shell.** Start screen, state variable, reduced-motion read, static SVG scene in layers, placeholder hotspots, Play/Pause stub, credits stub. Verify: acceptance checks 1-10 in `spec.md`, screenshots at three phone sizes.
 - [x] **2. Early deploy.** Push to GitHub Pages and open the HTTPS URL on a physical phone. Verify: scene fits, Enter works, tap targets usable. Catches viewport/address-bar issues before effects are added.
 - [x] **3. Ambient visuals.** Fog, bats, flicker, leaves, stars, one at a time. Verify: each visible, loops cleanly, honors reduced motion, Play/Pause freezes them.
-- [ ] **4. Ambient audio.** Source and verify CC0 wind and owl (record in `research.md`), loop, gated by Enter, paused by Play/Pause.
+- [x] **4. Ambient audio.** Source and verify CC0 wind and owl (record in `research.md`), loop, gated by Enter, paused by Play/Pause.
 - [ ] **5. Story 1 (pumpkins)** as a standalone sequence first, then triggers, progress feedback, hints, input lock. Then Phase 1 playtest.
 
 Test each result before continuing, including related behavior that already works. Update priorities as evidence emerges and preserve meaningful working checkpoints in git. Before delivery, verify the deployed app against the brief and specification.
@@ -88,6 +88,15 @@ Sounds (CC0, recorded in `research.md`): IgnasD wind gusts, chained with overlap
 | (Agent finding) first sound request in a fresh test browser stalled, which silenced everything because startup waited for all four files | Fragile startup | Each file loads independently with a 20 s timeout; sounds start as their own file is ready; the note shows only if no wind file loads | Agent: tests above |
 
 **Not yet confirmed by the Developer:** how the wind sounds (continuous and natural versus gappy or pulsing), whether the owl was heard, and whether levels are right. Levels are `MASTER_GAIN`, `WIND_GAIN`, `OWL_GAIN` at the top of `audio.js`.
+
+### Checkpoint 5: Story 1, pumpkins (in progress, started 2026-10-19)
+
+Spec: "Story 1 build spec" in `spec.md` (Developer chose all four pumpkins smallest to biggest, synthesized sounds, no ghost voice). Stages: (1) sequence alone, (2) triggers and progress feedback, (3) input lock and return, (4) hints, then the Phase 1 playtest.
+
+**Stage 1, sequence alone (built, awaiting Developer review):** `hollowStory.play('pumpkins')` in the console, or open the page with `#play-pumpkins` (temporary, removed at stage 2). Art in the story overlay layer; timeline in `style.css`; sounds in `cues.js`; controller in `story.js`.
+- Agent verified (Chrome, real time): runs 8.06-8.08 s; replayed three times with the patch restored exactly each time; scene taps ignored while it plays and a second `play()` refused; Pause freezes pictures and sound together and Play finishes the remaining 4.81 s; reduced motion removes all movement (no shake, flying or rising) and still plays with fades; sound peaks at the pop; no errors. WebKit renders the clipped ghost and flying lid correctly (no sound test possible there).
+- Bugs found and fixed while testing: the ghost's hat showed above the pumpkin before the ghost rose (hidden position too shallow); the smoke looked like flat discs (now soft gradient); Pause did not stop the story's pictures, because the story's `animation:` shorthand outranked the pause rule (pause rule is now `!important`).
+- Developer to judge by eye and ear: look of the faces, ghost and smoke; whether 8 s feels right; the sounds (levels and character are provisional, tunable in `cues.js`).
 
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
 

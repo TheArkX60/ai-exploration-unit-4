@@ -18,7 +18,8 @@
 
   // Reduced-motion preference is read before Enter and kept in state.
   const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const state = { phase: 'start', reducedMotion: motionQuery.matches };
+  // phase: start | running | paused. story: null, or the name of the story now playing (it can be paused mid-way).
+  const state = { phase: 'start', story: null, reducedMotion: motionQuery.matches };
 
   function render() {
     root.dataset.phase = state.phase;
@@ -114,6 +115,22 @@
     else if (state.phase === 'paused') setPhase('running');
   });
 
+  // ---- Story flag ----
+  // Stories (story.js) start and end through this one place: it sets the flag that locks scene taps and the
+  // data-story attribute that CSS uses to run the story's animation timeline.
+  function setStory(name) {
+    state.story = name;
+    if (name) root.dataset.story = name;
+    else delete root.dataset.story;
+    document.dispatchEvent(new CustomEvent('hollow:story', { detail: { story: name } }));
+    console.info('[hollow-hill] story:', name || 'none');
+  }
+  window.hollowApp = {
+    canStartStory: () => state.phase === 'running' && !state.story,
+    setStory,
+    state: () => ({ phase: state.phase, story: state.story, reducedMotion: state.reducedMotion }),
+  };
+
   // ---- Auto-pause when the page is hidden or the phone is locked (spec F6) ----
   // Same state as pressing Pause, and it stays paused until the User presses Play. That Play tap is also the
   // gesture iOS needs to restart web audio, which it interrupts whenever the page leaves the screen.
@@ -128,7 +145,7 @@
   const litTimers = new WeakMap();
 
   function activate(hotspot) {
-    if (state.phase !== 'running') return;
+    if (state.phase !== 'running' || state.story) return;       // ignored while paused or while a story plays
     hotspot.classList.add('lit');
     clearTimeout(litTimers.get(hotspot));
     litTimers.set(hotspot, setTimeout(() => hotspot.classList.remove('lit'), LIT_MS));

@@ -8,7 +8,7 @@
   <link rel="icon" href="data:,">
   <!-- ?v= is bumped before each push: GitHub Pages lets browsers cache files for 10 minutes, and a fresh
        index.html paired with a cached style.css/app.js broke the bats on a phone -->
-  <link rel="stylesheet" href="style.css?v=20261019-4">
+  <link rel="stylesheet" href="style.css?v=20261019-5">
 </head>
 <body>
 
@@ -57,6 +57,14 @@
           <path d="M328 480 C318 468 310 462 300 454 C312 460 322 466 331 470 Z"/>
         </g>
 
+        <!-- Soft-edged smoke: a lavender-gray gradient that fades to nothing at the rim -->
+        <radialGradient id="puff-grad" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0"   stop-color="#9c8cc0" stop-opacity="0.95"/>
+          <stop offset="0.55" stop-color="#8070a8" stop-opacity="0.6"/>
+          <stop offset="1"   stop-color="#6b5a8e" stop-opacity="0"/>
+        </radialGradient>
+        <!-- Hides the part of the ghost below the pumpkin's opening, so it looks like it rises out of it -->
+        <clipPath id="ghost-clip"><rect x="240" y="440" width="110" height="126"/></clipPath>
         <radialGradient id="fog-grad" cx="0.5" cy="0.5" r="0.5">
           <stop offset="0"   stop-color="#6b5a8e" stop-opacity="0.55"/>
           <stop offset="0.6" stop-color="#6b5a8e" stop-opacity="0.25"/>
@@ -244,7 +252,44 @@
           </g></g>
         </g>
       </g>
-      <g id="layer-story" data-layer="story-overlay" pointer-events="none"></g>
+      <g id="layer-story" data-layer="story-overlay" pointer-events="none" class="sfx">
+        <!-- Everything here is invisible until <html data-story="..."> is set; CSS (style.css) runs the timeline.
+             .s-clock is an 8 s timer whose animationend ends the story. -->
+        <rect class="s-clock" width="1" height="1" opacity="0"/>
+
+        <!-- Story 1 (pumpkins). Glows and faces sit on the four pumpkins (centers and sizes match layer-patch). -->
+        <g class="s-pumpkins">
+          <circle class="s-glow" cx="50"  cy="602" r="38" fill="url(#light-glow)"/>
+          <circle class="s-glow" cx="118" cy="594" r="48" fill="url(#light-glow)"/>
+          <circle class="s-glow" cx="204" cy="600" r="64" fill="url(#light-glow)"/>
+          <circle class="s-glow" cx="294" cy="592" r="82" fill="url(#light-glow)"/>
+          <g class="s-face" transform="translate(50 602) scale(0.59)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
+          <g class="s-face" transform="translate(118 594) scale(0.76)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
+          <g class="s-face" transform="translate(204 600) scale(1)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
+          <g class="s-face" transform="translate(294 592) scale(1.28)"><path d="M-13 -4 L-6 -4 L-9.5 -11 Z M6 -4 L13 -4 L9.5 -11 Z M0 0 L-2.5 4 L2.5 4 Z M-14 5 L-9 9 L-5 6 L0 10 L5 6 L9 9 L14 5 L12 12 Q0 19 -12 12 Z" fill="#ffc247"/></g>
+
+          <!-- The biggest pumpkin: dark opening, ghost rising out of it (clipped at the opening's rim), lid that pops off -->
+          <ellipse class="s-opening" cx="294" cy="566" rx="24" ry="8" fill="#0e0720"/>
+          <g clip-path="url(#ghost-clip)">
+            <g class="s-ghost-rise"><g class="s-ghost-wobble">
+              <use href="#ghost" x="274" y="518" width="40" height="53"/>
+              <use href="#ghost-hat" x="285.5" y="501" width="17" height="20"/>
+            </g></g>
+          </g>
+          <g class="s-lid">
+            <ellipse cx="294" cy="566" rx="28" ry="10" fill="#ff7a1a"/>
+            <rect x="291" y="554" width="7" height="12" fill="#1c0f33"/>
+          </g>
+          <g class="s-smoke">
+            <circle class="s-puff" cx="276" cy="562" r="15" fill="url(#puff-grad)"/>
+            <circle class="s-puff" cx="294" cy="550" r="18" fill="url(#puff-grad)"/>
+            <circle class="s-puff" cx="311" cy="560" r="15" fill="url(#puff-grad)"/>
+            <circle class="s-puff" cx="285" cy="542" r="13" fill="url(#puff-grad)"/>
+            <circle class="s-puff" cx="304" cy="541" r="13" fill="url(#puff-grad)"/>
+            <circle class="s-puff" cx="294" cy="568" r="16" fill="url(#puff-grad)"/>
+          </g>
+        </g>
+      </g>
     </svg>
 
     <!-- 8. UI layer -->
@@ -276,7 +321,9 @@
     <button id="credits-close" class="btn btn-primary" type="button">Close</button>
   </dialog>
 
-  <script src="audio.js?v=20261019-4"></script>
-  <script src="app.js?v=20261019-4"></script>
+  <script src="audio.js?v=20261019-5"></script>
+  <script src="cues.js?v=20261019-5"></script>
+  <script src="app.js?v=20261019-5"></script>
+  <script src="story.js?v=20261019-5"></script>
 </body>
 </html>
