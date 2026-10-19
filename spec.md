@@ -65,6 +65,15 @@ Computed contrast: UI text on panel 15.9, hint text 13.6, button text 7.4, focus
 - H5. Timers freeze while paused. During a story they stop and the hint line is hidden; after the story ends they restart at 0 with no hint shown.
 - H6. One line of text, >= 16 px, >= 4.5:1 contrast, fades in (plain swap under reduced motion).
 
+**Hint wording (Developer chose 2026-10-19; lines live in a table in `hints.js`)**
+| Level | While only the pumpkin story exists (in use) | For the finished game (switch `ACTIVE` in `hints.js` when stories 2 and 3 exist) |
+|---|---|---|
+| 1, about 15 s | The hill is restless tonight… | The hill is restless tonight… |
+| 2, about 30 s | Look near the pumpkin patch… | Look near the patch, the graves, the house. |
+| 3, about 45 s | Size matters… patterns wake them. | Size, rhythm, order… patterns wake them. |
+
+Rules as built (stage 4): H1 any tap on the scene, hotspot or empty sky, with the mouse, touch or keyboard, restarts the idle clock and hides the hint; H5 the clock counts only while running with no story, and a story hides the hint and restarts the clock at 0 afterwards; the hint line is `sfx`, so its fade freezes on Pause, and it is a plain swap under reduced motion. Tapping the Pause or Credits buttons does not count as a scene tap.
+
 **Failure and edge behavior**
 - F1. A wrong tap in a sequence plays a short distinct "nope" cue (soft sound + wobble) and resets that sequence.
 - F2. Each correct tap gives a unique tone and a light-up that stays lit until the sequence completes or resets, so progress is visible.

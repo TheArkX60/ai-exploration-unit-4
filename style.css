@@ -310,6 +310,12 @@ html[data-reduced-motion="true"][data-story="pumpkins"] .s-ghost-rise { animatio
 html[data-reduced-motion="true"][data-story="pumpkins"] .s-puff { animation-name: s-puff-fade; }
 @keyframes s-puff-fade { 0% { opacity: 0; } 25% { opacity: 0.6; } 100% { opacity: 0; } }
 
+/* Hint line: fades in, or simply appears under reduced motion (H6). One line of 16 px text. */
+.hint { white-space: nowrap; }
+.hint.fade-in { animation: hint-in 0.6s ease-out; }
+@keyframes hint-in { from { opacity: 0; } to { opacity: 1; } }
+html[data-reduced-motion="true"] .hint.fade-in { animation: none; }
+
 /* "A story is playing" while taps are ignored; then "Your turn" for a moment when control returns.
    Same spot as the hint line (hints are hidden during stories). Its fades are CSS animations so Pause freezes them. */
 .story-note {

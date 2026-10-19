@@ -8,7 +8,7 @@
   <link rel="icon" href="data:,">
   <!-- ?v= is bumped before each push: GitHub Pages lets browsers cache files for 10 minutes, and a fresh
        index.html paired with a cached style.css/app.js broke the bats on a phone -->
-  <link rel="stylesheet" href="style.css?v=20261019-9">
+  <link rel="stylesheet" href="style.css?v=20261019-10">
 </head>
 <body>
 
@@ -308,7 +308,7 @@
     <div class="ui">
       <button id="credits-open" class="btn btn-panel ui-credits" type="button">Credits</button>
       <button id="toggle" class="btn btn-panel ui-toggle" type="button" aria-pressed="false">Pause</button>
-      <p id="hint" class="hint" aria-live="polite" hidden></p>
+      <p id="hint" class="hint sfx" aria-live="polite" hidden></p>
       <p id="sound-note" class="sound-note" role="status" hidden>Sound unavailable</p>
       <!-- Explains why taps do nothing while a story plays, then says control is back (sfx: freezes on Pause) -->
       <p id="story-note" class="story-note sfx" role="status" hidden></p>
@@ -335,9 +335,10 @@
     <button id="credits-close" class="btn btn-primary" type="button">Close</button>
   </dialog>
 
-  <script src="audio.js?v=20261019-9"></script>
-  <script src="cues.js?v=20261019-9"></script>
-  <script src="app.js?v=20261019-9"></script>
-  <script src="story.js?v=20261019-9"></script>
+  <script src="audio.js?v=20261019-10"></script>
+  <script src="cues.js?v=20261019-10"></script>
+  <script src="app.js?v=20261019-10"></script>
+  <script src="story.js?v=20261019-10"></script>
+  <script src="hints.js?v=20261019-10"></script>
 </body>
 </html>
