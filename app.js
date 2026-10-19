@@ -114,6 +114,15 @@
     else if (state.phase === 'paused') setPhase('running');
   });
 
+  // ---- Auto-pause when the page is hidden or the phone is locked (spec F6) ----
+  // Same state as pressing Pause, and it stays paused until the User presses Play. That Play tap is also the
+  // gesture iOS needs to restart web audio, which it interrupts whenever the page leaves the screen.
+  function pauseIfHidden() {
+    if (document.hidden && state.phase === 'running') setPhase('paused');
+  }
+  document.addEventListener('visibilitychange', pauseIfHidden);
+  window.addEventListener('pagehide', pauseIfHidden);
+
   // ---- Hotspots: placeholder feedback only (light-up) ----
   const LIT_MS = 450;
   const litTimers = new WeakMap();
