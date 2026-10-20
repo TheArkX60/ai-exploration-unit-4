@@ -6,6 +6,7 @@ Purpose: show, requirement by requirement, that the deployed Phase 1 prototype m
 
 - **Deployed build checked:** https://thearkx60.github.io/ai-exploration-unit-4/ (GitHub Pages, `main`), 2026-10-19, commits `3475ae7` and later (version stamp `20261019-11`/`-12`).
 - **How it was checked:** the Agent drove the live site in headless Chrome with real mouse clicks, real key presses and touch events at 360x640, 390x844 and 430x932, and the same code in Playwright WebKit (iPhone's engine; it has no Web Audio, so sound is not testable there). Pass/fail comes from measured values (element sizes, computed styles, animation states, audio clock and level), not from looking. The Developer checked each step on a physical iPhone and on a computer, and judged looks and sound by eye and ear.
+- **Repeatable:** the checks were saved as scripts in `tests/` (see `tests/README.md`), so they can be re-run after the playtest fixes and extended for stories 2 and 3. `tests/test_audit_live.py` is this audit's live-site run.
 - **Not checkable by the Agent:** how the sound actually sounds, and real-iPhone behavior beyond what the Developer reported. The Developer ran the finished build on an iPhone at each step; a last full run of the final build is listed under "Open items".
 
 ## Brief: Phase 1 requirements

@@ -115,6 +115,8 @@ Spec: "Story 1 build spec" in `spec.md` (Developer chose all four pumpkins small
 
 **Phase 1 cleanup and verification (2026-10-19):** behavior-preserving cleanup (leaves and effect ranges moved to `ambient.js`, stale comments and two unused CSS variables fixed; the full test suite re-run with unchanged results), then a requirement-by-requirement audit of the live site against `brief.md` and `spec.md`. Results and open items: `verification.md`.
 
+**Saved for Phase 2 (2026-10-19):** the test scripts used throughout are now in `tests/` with a README, a shared harness and a runner (`python tests/run_all.py --quick`), and the full build-session transcript is in `transcripts/build-2026-10-19_194148.md`.
+
 **Peer playtests:** protocol, script, observation table and note template are in `playtest.md` (drafted by the Agent 2026-10-19; the Developer runs the sessions). Purpose (Developer): find every issue in story 1, fix story 1, and apply the lessons to stories 2 and 3; tag each finding as "story 1 only" or "applies to every story". Record each tester's session in this section. `playtest.md` must be updated once stories 2 and 3 exist.
 
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
