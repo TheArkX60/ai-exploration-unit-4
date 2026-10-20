@@ -1,4 +1,4 @@
-# Phase 1 Playtest Guide
+# Playtest Guide (for the Phase 2 peer playtests)
 
 > EDITING DIRECTIVE: DEVELOPER AND AGENT EDIT THIS FILE COLLABORATIVELY. THE DEVELOPER MUST REVIEW AND APPROVE ITS CONTENT.
 
@@ -6,7 +6,7 @@ Purpose: run the same neutral session with each peer, observe first, ask afterwa
 
 ## 1. What this playtest should find out
 
-The Phase 1 prototype is the ambient scene plus **one** story (the pumpkins). The questions:
+Written against the prototype as of 2026-10-19: the ambient scene plus **one** story (the pumpkins). When the other two stories exist, update this section (and the question list) before the sessions. The questions:
 
 1. **Discovery.** Can someone who knows nothing find and complete the pumpkin story without help? How long does it take, and what do they try first?
 2. **Hints.** Do the three idle hints get noticed, and do they move people toward the pumpkins without giving it away?

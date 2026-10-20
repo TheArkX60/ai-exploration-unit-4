@@ -113,7 +113,7 @@ Spec: "Story 1 build spec" in `spec.md` (Developer chose all four pumpkins small
 - Agent verified (Chrome): in a real-time run the hints appeared at 14.9, 29.7 and 44.8 s and level 3 was still showing at 52 s (no level 4, no cycling). With shortened timers: a tap on empty sky, on a wrong pumpkin, and a keyboard Enter on a window each hid the hint and restarted the clock at level 1; Pause held the idle clock at 2.8 s for 8 s and it continued after Play; a story hid the hint, the clock restarted at 0 after it and level 1 came back 2.4 s later (timers shortened); under reduced motion the hint has no animation, otherwise it fades in; all six lines fit on one 16 px line at 360 px; no errors.
 - Developer to judge: whether the hints actually lead a first-time player to the pumpkins without giving it away (this is what the Phase 1 playtest is for), and the 15/30/45 s timing.
 
-**Phase 1 playtest:** protocol, script, observation table and note template are in `playtest.md` (drafted by the Agent 2026-10-19, awaiting Developer approval). Record each tester's session in this section.
+**Peer playtests (Phase 2):** protocol, script, observation table and note template are in `playtest.md` (drafted by the Agent 2026-10-19 so it is ready for Phase 2; the Developer will run the sessions then). Record each tester's session in this section. `playtest.md` must be updated once stories 2 and 3 exist.
 
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
 
