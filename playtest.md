@@ -1,8 +1,10 @@
-# Playtest Guide (for the Phase 2 peer playtests)
+# Playtest Guide (story 1 first, lessons carried to stories 2 and 3)
 
 > EDITING DIRECTIVE: DEVELOPER AND AGENT EDIT THIS FILE COLLABORATIVELY. THE DEVELOPER MUST REVIEW AND APPROVE ITS CONTENT.
 
 Purpose: run the same neutral session with each peer, observe first, ask afterwards, and record what happened without coaching. Results go into `plan.md` ("Evidence and revisions"); this file is the protocol and the note template.
+
+How the results are used (Developer, 2026-10-19): the playtest exists to expose every issue in **story 1**; story 1 is then fixed; and what was learned (how people find triggers, how hints land, how feedback and the story lock read, what felt slow or confusing) guides the design of **stories 2 and 3**. Record findings so that each one can be tagged "story 1 only" or "applies to every story".
 
 ## 1. What this playtest should find out
 
