@@ -25,7 +25,7 @@ Define only enough to build and verify the current direction:
 
 Reference the brief's fixed requirements rather than copying them. Specify your decisions precisely enough that the Developer and Agent can judge the same result. Leave untested details open until they are needed, and distinguish provisional ideas from approved behavior.
 
-### Status: Palette and scaling approved by Developer 2026-10-18; checkpoint 1 acceptance checks drafted. Items marked (provisional) are still open.
+### Status (2026-10-19): Phase 1 scope built and verified (see `verification.md`). Palette and scaling approved by Developer 2026-10-18. Stories 2 and 3 are still to be specified in detail after the story 1 playtest. Items marked (provisional) are still open.
 
 ### Experience (approved direction in `research.md`)
 Scene "Hollow Hill", sheet-ghost character, three independent stories, idle hints at ~15/30/45 s. This checkpoint covers only the static shell, not effects, audio or stories.
@@ -169,13 +169,16 @@ Rule: no sound is used until its source link, license, and required credit are r
 9. A credits link/panel shows the Developer name and a placeholder for assets.
 10. Text is >= 16 px and meets 4.5:1 contrast.
 
-Brief requirements not covered yet: ambient effects, ambient audio, three stories and their timing, hints, interaction lock, full Play/Pause behavior, public deploy and phone test, full credits.
+Checkpoint 1 status: these ten checks passed on 2026-10-19 and have been re-verified on the live site since (see `verification.md`). Check 9's credits placeholder has been replaced by the real credits.
+
+Still to build for the full brief: stories 2 (graveyard) and 3 (the house), and the final polish and re-verification pass.
 
 ## Scope and revisions
 
-**Excluded for now:** ambient effects, audio, stories, hints, ghosts-found counter, any 3D.
-**Next behavior that must work after this checkpoint:** ambient effects and Play/Pause pausing them (one system at a time).
-No requirement changes yet.
+**Built and verified for Phase 1 (2026-10-19):** the static shell, five ambient effects (stars, window and lantern flicker, fog, bats, leaves), ambient audio (wind and owl), full Play/Pause plus auto-pause, story 1 (pumpkins) with triggers, progress feedback, wrong-tap and timeout behavior, input lock and return note, idle hints, and credits. Results: `verification.md`.
+**Excluded for now:** stories 2 and 3, the ghosts-found counter, any 3D.
+**Next:** playtest story 1 with peers, fix what it shows, then build stories 2 and 3 using what was learned (`playtest.md`).
+Requirement changes so far are recorded where they were made: full-bleed stage, landscape overlay, story flag instead of a story phase, wind built from chained gusts, auto-pause (F6), and the Phase 1 hint wording.
 
 ## Saving the transcript
 
