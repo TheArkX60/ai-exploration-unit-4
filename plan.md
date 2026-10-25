@@ -25,8 +25,8 @@ Status: Approved by Developer 2026-10-19. Main risk across these: layout or laye
 - [x] **3. Ambient visuals.** Fog, bats, flicker, leaves, stars, one at a time. Verify: each visible, loops cleanly, honors reduced motion, Play/Pause freezes them.
 - [x] **4. Ambient audio.** Source and verify CC0 wind and owl (record in `research.md`), loop, gated by Enter, paused by Play/Pause.
 - [x] **5. Story 1 (pumpkins)** as a standalone sequence first, then triggers, progress feedback, hints, input lock. Then Phase 1 playtest.
-- [ ] **6. Story 2 (graveyard).** Tombstones left -> right -> center, then ground rumble, yawning stones and three dancing ghosts. Verify the sequence, replay, Pause, reduced motion and feedback before reviewing it on a phone.
-- [ ] **7. Story 3 (house).** Windows right -> left -> upper-middle, then a shudder, blinking windows, door-party and light snap. Verify the sequence, replay, Pause, reduced motion and feedback before reviewing it on a phone.
+- [x] **6. Story 2 (graveyard).** Tombstones left -> right -> center, then ground rumble, yawning stones and three dancing ghosts. Verify the sequence, replay, Pause, reduced motion and feedback before reviewing it on a phone.
+- [x] **7. Story 3 (house).** Windows right -> left -> upper-middle, then a shudder, blinking windows, door-party and light snap. Verify the sequence, replay, Pause, reduced motion and feedback before reviewing it on a phone.
 
 Test each result before continuing, including related behavior that already works. Update priorities as evidence emerges and preserve meaningful working checkpoints in git. Before delivery, verify the deployed app against the brief and specification.
 
@@ -139,9 +139,11 @@ The Developer verified the left -> right -> center trigger, wrong-tap reset, sto
 
 **Developer recheck (2026-10-25):** The House sequence, Graveyard sequence, shared Pause repair, all-stories hint wording, and the restored "patterns wake them" ending all work as intended in the local preview.
 
-**Automated verification (Agent, 2026-10-25):** `python tests/run_all.py --quick` completed all 13 checks without a crash. The graveyard and house checks measured story runs of about 8.03 s and 8.01 s, confirmed the correct trigger orders and progress lights, wrong-tap resets, replay, reduced-motion variants, and zero browser exceptions. Both animation clocks stayed frozen during Pause. The first focused run sampled transforms too soon after toggling Pause and falsely reported movement; the checks now wait for the browser to commit the paused frame and compare animation clock time. Physical-phone review of these two stories remains to be done before checking off checkpoints 6 and 7.
+**Automated verification (Agent, 2026-10-25):** `python tests/run_all.py --quick` completed all 13 checks without a crash. The graveyard and house checks measured story runs of about 8.03 s and 8.01 s, confirmed the correct trigger orders and progress lights, wrong-tap resets, replay, reduced-motion variants, and zero browser exceptions. Both animation clocks stayed frozen during Pause. The first focused run sampled transforms too soon after toggling Pause and falsely reported movement; the checks now wait for the browser to commit the paused frame and compare animation clock time. Physical-phone review is recorded below.
 
-**Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
+**Physical-phone review (Developer, 2026-10-25):** The deployed three-story build was opened on the phone; Developer report: "Everything works as intended." Checkpoints 6 and 7 are complete.
+
+**Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. It was not specifically called out in the phone review; revisit only if it becomes noticeable or testers mention it.
 
 **Decision on flicker:** the flicker moves only on a soft halo behind each light; the window and lantern shapes stay solid. Reason: animating the hard-edged shapes (first `opacity`, then `fill-opacity`) coincided with a thin yellow sliver on the left of each light on the Developer's Edge display. The sliver remained with all animation stopped and with the halos hidden, so the flicker only made it more visible.
 
