@@ -61,7 +61,7 @@ Computed contrast: UI text on panel 15.9, hint text 13.6, button text 7.4, focus
 - H1. Idle timer resets on any tap/key activation on the scene or a hotspot, correct or not.
 - H2. After a reset, hints restart at level 1.
 - H3. Levels appear at ~15, 30, 45 s idle. After level 3 it stays visible; there is no level 4 or cycling.
-- H4. Hints are scene-wide and never depend on which stories were seen. Level 1: vague mood line. Level 2: names an area (graveyard, patch, house). Level 3: hints at the pattern type (size, rhythm, order) without stating the trigger.
+- H4. Hints are scene-wide and never depend on which stories were seen. Level 1: vague mood line. Level 2: names an area (graveyard, patch, house). Level 3: hints at a relevant attribute (size or position) without stating the trigger.
 - H5. Timers freeze while paused. During a story they stop and the hint line is hidden; after the story ends they restart at 0 with no hint shown.
 - H6. One line of text, >= 16 px, >= 4.5:1 contrast, fades in (plain swap under reduced motion).
 
@@ -70,7 +70,7 @@ Computed contrast: UI text on panel 15.9, hint text 13.6, button text 7.4, focus
 |---|---|---|
 | 1, about 15 s | The hill is restless tonight… | The hill is restless tonight… |
 | 2, about 30 s | Look near the pumpkin patch… | Look near the patch, the graves, the house. |
-| 3, about 45 s | Size matters… patterns wake them. | Size, rhythm, order… patterns wake them. |
+| 3, about 45 s | Size matters… patterns wake them. | Size and position matter… patterns wake them. |
 
 Rules as built (stage 4): H1 any tap on the scene, hotspot or empty sky, with the mouse, touch or keyboard, restarts the idle clock and hides the hint; H5 the clock counts only while running with no story, and a story hides the hint and restarts the clock at 0 afterwards; the hint line is `sfx`, so its fade freezes on Pause, and it is a plain swap under reduced motion. Tapping the Pause or Credits buttons does not count as a scene tap.
 
@@ -120,7 +120,22 @@ Test for each: H1-H6 by waiting and tapping with a shortened timer setting; F1-F
   - 6.8-8 s: faces and glow fade, leaving the pumpkins as they were.
 - Reduced motion (F7): no shaking, flying or rising. Faces and glow still fade, the ghost fades in and out in place, the smoke only fades, and sounds still play.
 - Pass: it can be played repeatedly without reloading and looks identical each time; afterwards the patch looks exactly as before.
-- Graveyard: three tombstones tapped in a rhythm (rhythm tolerance is open; tune in playtest, with a generous window). Beats: ground rumbles -> tombstones yawn -> three little ghosts wobble-dance -> sink back. Pass: stones return to their original look.
+
+**Story 2 build spec (approved by Developer 2026-10-25)**
+- Trigger: tombstones left -> right -> center (IDs 1, 3, 2). It is a fixed order, not a rhythm/timing puzzle. Wrong order, a repeated tombstone and an 8 s idle timeout reset its three progress lights under F1-F3.
+- Feedback: correct tombstones give persistent golden lights and three distinct synthesized notes, G4 -> C5 -> B-flat4. The notes rise through the left/right portion of the path then settle lower at the center. A wrong tombstone plays the shared falling "nope" cue and shakes as one whole hotspot (including the center stone's cross); under reduced motion it fades instead.
+- Sequence (about 8 s, with the shared story lock and Pause): ground rumble -> stones yawn one after another -> three small ghosts rise, wobble-dance and sink -> ground mist settles -> scene resets.
+- Reduced motion: the rumble, stone yawn, ghost rise/dance and mist growth become fades, while the story sound remains. The shared lock/return note, hints, keyboard and touch behavior match Story 1.
+- Developer review: the sequence and sound direction are accepted for now; the music may be retuned later after more complete-scene testing.
+
+**Story 3 build spec (approved by Developer 2026-10-25)**
+- Trigger: windows right -> left -> upper-middle (IDs 3, 1, 2). It is a fixed order, not the order of the ambient flicker. Wrong order, a repeated window and an 8 s idle timeout reset the three progress lights under F1-F3.
+- Feedback: correct windows give persistent golden lights and three distinct bright synthesized notes. A wrong window plays the shared falling "nope" cue and shakes as a complete window hotspot; under reduced motion it fades instead.
+- Sequence (about 8 s, with the shared story lock and Pause): house shudders -> windows blink like eyes -> door opens on three tiny dancing ghosts -> door closes and the lights snap off, then back on -> scene resets.
+- Reduced motion: the house shake, window squash, door fold and party dance become opacity/light changes, while sound remains. The shared lock/return note, hints, keyboard and touch behavior match Stories 1 and 2.
+- Pause repair (2026-10-25): the House building and each tombstone are in the shared `.sfx` scope, so their story and wrong-tap animations freeze under Pause with the overlay art. The far hill is intentionally outside the House building group and never moves during its shudder.
+- With all three stories now present, the active hint wording is the all-stories set in `hints.js` (patch, graves and house; then "Size and position matter… patterns wake them."). "Rhythm" was removed because no implemented trigger uses timing.
+- Graveyard: three tombstones tapped in a fixed left -> right -> center order (approved 2026-10-25; no timing requirement). Beats: ground rumbles -> tombstones yawn -> three little ghosts wobble-dance -> sink back. Pass: stones return to their original look.
 - The House: windows tapped in the order they flicker (flicker cue replays when needed; exact rule open). Beats: house shudders -> windows blink like eyes -> door opens on a tiny ghost party -> lights snap off then on. Pass: house returns to its original look.
 
 **Brief checks that apply across stories:** content is suitable for ages 10+ with no gore or realistic violence; the three stories exist and are discoverable; and all effects are original or properly credited assets (see credits).
@@ -177,7 +192,7 @@ Still to build for the full brief: stories 2 (graveyard) and 3 (the house), and 
 
 **Built and verified for Phase 1 (2026-10-19):** the static shell, five ambient effects (stars, window and lantern flicker, fog, bats, leaves), ambient audio (wind and owl), full Play/Pause plus auto-pause, story 1 (pumpkins) with triggers, progress feedback, wrong-tap and timeout behavior, input lock and return note, idle hints, and credits. Results: `verification.md`.
 **Excluded for now:** stories 2 and 3, the ghosts-found counter, any 3D.
-**Next:** playtest story 1 with peers, fix what it shows, then build stories 2 and 3 using what was learned (`playtest.md`).
+**Next:** build and verify Story 2 (graveyard), then use its completed shared pattern for Story 3 (the house). The Phase 1 playtest found no pumpkin-story revision to make; its consequential lesson was that the remaining apparently interactive areas must receive their promised stories (`plan.md`).
 Requirement changes so far are recorded where they were made: full-bleed stage, landscape overlay, story flag instead of a story phase, wind built from chained gusts, auto-pause (F6), and the Phase 1 hint wording.
 
 ## Saving the transcript

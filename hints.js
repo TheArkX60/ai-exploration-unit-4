@@ -26,10 +26,10 @@
     allStories: [
       'The hill is restless tonight…',
       'Look near the patch, the graves, the house.',
-      'Size, rhythm, order… patterns wake them.',
+      'Size and position matter… patterns wake them.',
     ],
   };
-  const ACTIVE = 'pumpkinsOnly';
+  const ACTIVE = 'allStories';
 
   let idleSeconds = 0;
   let level = 0;                           // 0 = no hint showing, 1 to 3 = which hint

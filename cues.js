@@ -94,9 +94,34 @@
     [2093, 1568, 1318.5].forEach((f, i) => bell(a, t0 + 6.8 + i * 0.12, f, 0.035, 0.7));           // everything settles: falling sparkle
   }
 
-  const STORIES = { pumpkins: pumpkinStory };
+  // The graveyard story's soundtrack shares the same 8 s clock as its CSS timeline: a low rumble, three
+  // sleepy stone creaks, playful ghost bells, then a soft settling puff.
+  function graveyardStory(a) {
+    const t0 = a.ctx.currentTime + 0.03;
+    sweep(a, t0 + 0.05, 'sine', 72, 48, 0.18, 1.4, 230, 120);
+    burst(a, t0 + 0.15, 'lowpass', 420, 110, 0.08, 1.2, 0.04);
+    [0, 0.17, 0.34].forEach((offset, i) => sweep(a, t0 + 1.1 + offset, 'triangle', 230 + i * 45, 145 + i * 35, 0.1, 0.3, 620, 260));
+    [523.25, 659.25, 783.99, 659.25, 880].forEach((f, i) => bell(a, t0 + 3.15 + i * 0.34, f, 0.055, 0.7));
+    burst(a, t0 + 5.85, 'lowpass', 1250, 210, 0.14, 0.9, 0.06);
+    bell(a, t0 + 6.9, 392, 0.04, 0.8);
+  }
+
+  // The house sequence: a wooden shudder, two window blinks, a tiny bright party, then the light snap.
+  function houseStory(a) {
+    const t0 = a.ctx.currentTime + 0.03;
+    [0, 0.18, 0.36].forEach((offset, i) => sweep(a, t0 + 0.55 + offset, 'triangle', 145 - i * 10, 92 - i * 8, 0.1, 0.22, 600, 210));
+    [0, 0.55].forEach((offset) => sweep(a, t0 + 1.9 + offset, 'sine', 640, 190, 0.11, 0.18, 1400, 350));
+    sweep(a, t0 + 3.75, 'triangle', 250, 95, 0.12, 0.35, 800, 220);                               // door creak
+    [659.25, 783.99, 880, 1046.5, 880].forEach((f, i) => bell(a, t0 + 4.35 + i * 0.28, f, 0.045, 0.55));
+    burst(a, t0 + 6.35, 'lowpass', 1000, 280, 0.1, 0.16, 0.01);                                    // door shuts
+    sweep(a, t0 + 6.8, 'sine', 150, 1100, 0.12, 0.09);                                             // lights return
+  }
+
+  const STORIES = { pumpkins: pumpkinStory, graveyard: graveyardStory, house: houseStory };
 
   const PUMPKIN_NOTES = [523.25, 659.25, 783.99, 1046.5];      // C5 E5 G5 C6: each pumpkin sounds higher than the last
+  const GRAVE_NOTES = [392, 523.25, 466.16];                    // G4 C5 Bb4: distinct, more hollow tombstone taps
+  const HOUSE_NOTES = [783.99, 659.25, 880];                     // G5 E5 A5: bright window taps, independent of position
 
   window.hollowCues = {
     story(name) {
@@ -109,6 +134,18 @@
       if (!a) return;
       const t = a.ctx.currentTime + 0.01;
       bell(a, t, PUMPKIN_NOTES[step % PUMPKIN_NOTES.length], 0.16, 0.9);
+    },
+    // Correct tombstone number `step` (0 to 2) in the left -> right -> center sequence.
+    graveTap(step) {
+      const a = audio();
+      if (!a) return;
+      bell(a, a.ctx.currentTime + 0.01, GRAVE_NOTES[step % GRAVE_NOTES.length], 0.14, 0.85);
+    },
+    // Correct window number `step` (0 to 2) in the right -> left -> upper-middle sequence.
+    houseTap(step) {
+      const a = audio();
+      if (!a) return;
+      bell(a, a.ctx.currentTime + 0.01, HOUSE_NOTES[step % HOUSE_NOTES.length], 0.14, 0.8);
     },
     // Wrong pumpkin: two soft, falling, muffled notes.
     nope() {

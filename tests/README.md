@@ -42,6 +42,8 @@ Notes:
 | `test_flicker.py`, `test_fog.py`, `test_leaves.py` | Effects | Running, frozen under Pause, none or still under reduced motion; leaves 10 to 12 visible; taps pass through fog | 1 min each |
 | `test_bats.py`, `test_bat_gaps.py` | Bats | Flight range follows the screen edges; a bat on screen about 76% of the time; gaps of about 2 to 3.5 s | 2 min each |
 | `test_face_shake.py` | Faces shake with pumpkins | Face and pumpkin centers within about 0.15 px mid-shake; no movement under reduced motion | 20 s |
+| `test_graveyard.py` | Graveyard trigger and story | Left -> right -> center gives three distinct tones/progress lights then an ~8 s replayable story; wrong taps reset; Pause freezes it; reduced motion uses fades | 30 s |
+| `test_house.py` | House trigger and story | Right -> left -> upper-middle gives three distinct tones/progress lights then an ~8 s replayable story; wrong taps reset; Pause freezes it; reduced motion uses light/fade changes | 30 s |
 | `test_audit_live.py` | Requirements audit of the **live** site | See `verification.md` for the expected values (sizes, contrast, credits, effects running, Pause, touch story 3 times, blocked audio, hidden tab, reduced motion) | 2 min |
 
 Known quirk: right after a long pause, headless Chrome can take a few seconds to restart audio, so a check made too soon after Play may still read "suspended". Phones are faster.

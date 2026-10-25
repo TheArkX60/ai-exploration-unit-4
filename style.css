@@ -197,6 +197,9 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
 
 /* Wrong pumpkin: a quick wobble (removed on animationend). Reduced motion: a brief fade instead. */
 .hotspot.nope .pumpkin { transform-box: fill-box; transform-origin: 50% 100%; animation: nope-wobble 0.35s ease-in-out; }
+/* Shake the whole tombstone hotspot, not only its stone path: the center stone's cross then stays attached. */
+.hotspot.nope[data-kind="tombstone"] { transform-box: fill-box; transform-origin: 50% 100%; animation: nope-wobble 0.35s ease-in-out; }
+.hotspot.nope[data-kind="window"] { transform-box: fill-box; transform-origin: 50% 100%; animation: nope-wobble 0.35s ease-in-out; }
 @keyframes nope-wobble {
   0%, 100% { transform: translateX(0) rotate(0); }
   20% { transform: translateX(-3px) rotate(-4deg); }
@@ -204,6 +207,8 @@ html[data-reduced-motion="true"] :is(.fx, .fx *) { animation: none !important; }
   80% { transform: translateX(-2px) rotate(-2deg); }
 }
 html[data-reduced-motion="true"] .hotspot.nope .pumpkin { animation-name: nope-fade; }
+html[data-reduced-motion="true"] .hotspot.nope[data-kind="tombstone"] { animation-name: nope-fade; }
+html[data-reduced-motion="true"] .hotspot.nope[data-kind="window"] { animation-name: nope-fade; }
 @keyframes nope-fade { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
 
 /* ---------- UI layer (fixed px text, sits over the scene) ---------- */
@@ -242,7 +247,7 @@ html[data-reduced-motion="true"] .hotspot.nope .pumpkin { animation-name: nope-f
 .s-lid, .s-puff { transform-box: fill-box; transform-origin: center; }
 .s-ghost-wobble { transform-origin: 294px 566px; }   /* rocks around the opening's rim */
 
-html[data-story="pumpkins"] .s-clock { animation: s-clock 8s linear forwards; }
+html[data-story="pumpkins"] .s-clock-pumpkins { animation: s-clock 8s linear forwards; }
 @keyframes s-clock { from { transform: translateX(0); } to { transform: translateX(1px); } }
 
 /* Faces and glow: fade in, glow swells to the pop, then everything fades back out */
@@ -308,6 +313,124 @@ html[data-reduced-motion="true"][data-story="pumpkins"] .s-ghost-rise { animatio
 @keyframes s-ghost-fade { 0%, 37.5% { opacity: 0; } 45% { opacity: 1; } 67.5% { opacity: 1; } 75%, 100% { opacity: 0; } }
 html[data-reduced-motion="true"][data-story="pumpkins"] .s-puff { animation-name: s-puff-fade; }
 @keyframes s-puff-fade { 0% { opacity: 0; } 25% { opacity: 0.6; } 100% { opacity: 0; } }
+
+/* ---------- Story 2: graveyard (8 s timeline) ----------
+   The trigger is a fixed left -> right -> center order. During the story the real tombstones move in place,
+   while three overlay ghosts rise behind them. This preserves the scene's geometry and lets the common story
+   lock, Pause rule and reset-on-finish behavior work exactly as they do for the pumpkins. */
+.g-rumble, .g-ghost, .g-mist circle { opacity: 0; }
+.g-ghost { transform: translateY(62px); transform-origin: center bottom; }
+
+html[data-story="graveyard"] .s-clock-graveyard { animation: g-clock 8s linear forwards; }
+@keyframes g-clock { from { transform: translateX(0); } to { transform: translateX(1px); } }
+
+/* A short purple ground pulse begins the story, then subsides as the ghosts emerge. */
+html[data-story="graveyard"] .g-rumble { animation: g-rumble 8s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+@keyframes g-rumble {
+  0% { opacity: 0; transform: scale(0.35); }
+  8% { opacity: 0.72; transform: scale(1); }
+  18% { opacity: 0.22; transform: scale(1.18); }
+  28%, 100% { opacity: 0; transform: scale(1.25); }
+}
+
+/* The stones dip and open back up like a yawn, one after another. */
+html[data-story="graveyard"] .hotspot[data-kind="tombstone"] { transform-box: fill-box; transform-origin: center bottom; animation: g-yawn 1.1s ease-in-out 1.05s; }
+html[data-story="graveyard"] .hotspot[data-kind="tombstone"][data-id="2"] { animation-delay: 1.22s; }
+html[data-story="graveyard"] .hotspot[data-kind="tombstone"][data-id="3"] { animation-delay: 1.39s; }
+@keyframes g-yawn {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  38% { transform: translateY(5px) scaleY(0.82); }
+  64% { transform: translateY(-3px) scaleY(1.08); }
+}
+
+/* Each ghost rises, does two little sways, then sinks. Staggering keeps the small group readable. */
+html[data-story="graveyard"] .g-ghost { animation: g-ghost 8s ease-in-out forwards; }
+html[data-story="graveyard"] .g-ghost-center { animation-delay: 0.12s; }
+html[data-story="graveyard"] .g-ghost-right { animation-delay: 0.24s; }
+@keyframes g-ghost {
+  0%, 28% { opacity: 0; transform: translateY(62px) rotate(0); }
+  39% { opacity: 1; transform: translateY(0) rotate(-4deg); }
+  47% { opacity: 1; transform: translateY(-3px) rotate(5deg); }
+  55% { opacity: 1; transform: translateY(0) rotate(-5deg); }
+  63% { opacity: 1; transform: translateY(-3px) rotate(4deg); }
+  73%, 100% { opacity: 0; transform: translateY(62px) rotate(0); }
+}
+
+html[data-story="graveyard"] .g-mist circle { animation: g-mist 1.45s ease-out 5.85s backwards; transform-box: fill-box; transform-origin: center; }
+html[data-story="graveyard"] .g-mist circle:nth-child(2) { animation-delay: 5.94s; }
+html[data-story="graveyard"] .g-mist circle:nth-child(3) { animation-delay: 6.03s; }
+html[data-story="graveyard"] .g-mist circle:nth-child(4) { animation-delay: 6.12s; }
+@keyframes g-mist { 0% { opacity: 0; transform: scale(0.25); } 25% { opacity: 0.72; } 100% { opacity: 0; transform: scale(2) translateY(-7px); } }
+
+/* Reduced motion keeps the story's fades and sound but removes the rumble expansion, stone motion, ghost rise
+   and dance, and mist growth. */
+html[data-reduced-motion="true"][data-story="graveyard"] .hotspot[data-kind="tombstone"] { animation: none; }
+html[data-reduced-motion="true"][data-story="graveyard"] .g-rumble { animation-name: g-rumble-fade; }
+@keyframes g-rumble-fade { 0% { opacity: 0; } 8% { opacity: 0.62; } 28%, 100% { opacity: 0; } }
+html[data-reduced-motion="true"][data-story="graveyard"] .g-ghost { animation-name: g-ghost-fade; }
+@keyframes g-ghost-fade { 0%, 28% { opacity: 0; } 39%, 63% { opacity: 1; } 73%, 100% { opacity: 0; } }
+html[data-reduced-motion="true"][data-story="graveyard"] .g-mist circle { animation-name: g-mist-fade; }
+@keyframes g-mist-fade { 0% { opacity: 0; } 25% { opacity: 0.62; } 100% { opacity: 0; } }
+
+/* ---------- Story 3: house (8 s timeline) ----------
+   The fixed trigger is right -> left -> upper-middle. The scene's actual house, windows and door perform the
+   large beats; the overlay supplies a tiny ghost party inside the open doorway. */
+.h-open-door, .h-party, .h-party-light { opacity: 0; }
+.h-open-door { transform-box: fill-box; transform-origin: left center; }
+.h-party { transform-origin: center bottom; }
+
+html[data-story="house"] .s-clock-house { animation: h-clock 8s linear forwards; }
+@keyframes h-clock { from { transform: translateX(0); } to { transform: translateX(1px); } }
+
+/* The house shudders first, setting up the window-eye and doorway reveal. */
+html[data-story="house"] #house-building { transform-origin: 252px 384px; animation: h-shudder 1.25s ease-in-out 0.55s; }
+@keyframes h-shudder {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  18% { transform: translateX(-2px) rotate(-0.8deg); }
+  42% { transform: translateX(2px) rotate(0.8deg); }
+  66% { transform: translateX(-1.5px) rotate(-0.5deg); }
+}
+
+/* The three window shapes squash like blinking eyes; a separate opacity track creates the final light snap. */
+html[data-story="house"] .hotspot[data-kind="window"] .art {
+  transform-box: fill-box; transform-origin: center; animation: h-window-blink 1.1s ease-in-out 1.85s 2, h-lights 8s linear forwards;
+}
+@keyframes h-window-blink { 0%, 100% { transform: scaleY(1); } 38%, 60% { transform: scaleY(0.12); } }
+@keyframes h-lights { 0%, 78% { opacity: 1; } 79%, 84% { opacity: 0; } 85%, 100% { opacity: 1; } }
+
+/* The existing door folds away while the dark doorway and party replace it. */
+html[data-story="house"] .house-door { transform-box: fill-box; transform-origin: left center; animation: h-door-close 8s ease-in-out forwards; }
+@keyframes h-door-close { 0%, 43% { transform: scaleX(1); opacity: 1; } 49%, 68% { transform: scaleX(0); opacity: 0; } 76%, 100% { transform: scaleX(1); opacity: 1; } }
+html[data-story="house"] .h-open-door { animation: h-door-open 8s ease-in-out forwards; }
+@keyframes h-door-open { 0%, 43% { opacity: 0; transform: scaleX(0); } 49%, 68% { opacity: 1; transform: scaleX(1); } 76%, 100% { opacity: 0; transform: scaleX(0); } }
+
+/* The ghosts pop in, bob to the little party bells, then disappear before the lights return. */
+html[data-story="house"] .h-party { animation: h-party 8s ease-in-out forwards; }
+html[data-story="house"] .h-party-middle { animation-delay: 0.09s; }
+html[data-story="house"] .h-party-right { animation-delay: 0.18s; }
+@keyframes h-party {
+  0%, 49% { opacity: 0; transform: translateY(8px) rotate(0); }
+  55% { opacity: 1; transform: translateY(0) rotate(-7deg); }
+  60% { opacity: 1; transform: translateY(-3px) rotate(7deg); }
+  65% { opacity: 1; transform: translateY(0) rotate(-7deg); }
+  70% { opacity: 1; transform: translateY(-2px) rotate(6deg); }
+  76%, 100% { opacity: 0; transform: translateY(8px) rotate(0); }
+}
+html[data-story="house"] .h-party-light { animation: h-party-light 0.55s ease-in-out 4.1s 4 alternate; }
+html[data-story="house"] .h-party-light-b { animation-delay: 4.24s; }
+@keyframes h-party-light { from { opacity: 0.2; } to { opacity: 0.85; } }
+
+/* Reduced motion retains the story's light and opacity changes but removes the house shake, eye squash, door
+   folding, dancing and light pulsing. */
+html[data-reduced-motion="true"][data-story="house"] #house-building { animation: none; }
+html[data-reduced-motion="true"][data-story="house"] .hotspot[data-kind="window"] .art { animation: h-lights 8s linear forwards; }
+html[data-reduced-motion="true"][data-story="house"] .house-door { animation-name: h-door-fade; }
+@keyframes h-door-fade { 0%, 43% { opacity: 1; } 49%, 68% { opacity: 0; } 76%, 100% { opacity: 1; } }
+html[data-reduced-motion="true"][data-story="house"] .h-open-door { animation-name: h-door-fade-in; }
+@keyframes h-door-fade-in { 0%, 43% { opacity: 0; } 49%, 68% { opacity: 1; } 76%, 100% { opacity: 0; } }
+html[data-reduced-motion="true"][data-story="house"] .h-party { animation-name: h-party-fade; }
+@keyframes h-party-fade { 0%, 49% { opacity: 0; } 55%, 70% { opacity: 1; } 76%, 100% { opacity: 0; } }
+html[data-reduced-motion="true"][data-story="house"] .h-party-light { animation: none; opacity: 0.55; }
 
 /* Hint line: fades in, or simply appears under reduced motion (H6). One line of 16 px text. */
 .hint { white-space: nowrap; }

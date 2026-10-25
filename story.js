@@ -9,7 +9,7 @@
 
   const app = window.hollowApp;
   const cues = () => window.hollowCues;
-  const clock = document.querySelector('.s-clock');
+  const clocks = [...document.querySelectorAll('.s-clock')];
   let current = null;
 
   // ---------- Playing a story ----------
@@ -29,7 +29,10 @@
     app.setStory(null);                    // removing data-story resets every story element to its hidden base look
   }
 
-  clock.addEventListener('animationend', finish);
+  // Each story owns a clock. Ignore animation events from inactive clocks so only the current sequence can finish.
+  clocks.forEach((clock) => clock.addEventListener('animationend', () => {
+    if (clock.classList.contains(`s-clock-${current}`)) finish();
+  }));
 
   // ---------- Story 1 trigger: tap the four pumpkins smallest to biggest ----------
 
@@ -38,6 +41,8 @@
   const pumpkins = [...document.querySelectorAll('.hotspot[data-kind="pumpkin"]')];
 
   let progress = 0;                        // how many pumpkins in a row are right so far
+  let graveProgress = 0;                   // tombstones: left (1), right (3), center (2)
+  let houseProgress = 0;                   // windows: right (3), left (1), upper-middle (2)
   let idleSeconds = 0;                     // time since the last tap; counts only while running with no story
 
   function clearProgress() {
@@ -71,9 +76,79 @@
     }
   }
 
+  // ---------- Story 2 trigger: tombstones left -> right -> center ----------
+
+  const GRAVE_ORDER = [1, 3, 2];
+  const tombstones = [...document.querySelectorAll('.hotspot[data-kind="tombstone"]')];
+
+  function clearGraveProgress() {
+    graveProgress = 0;
+    tombstones.forEach((stone) => stone.classList.remove('progress'));
+  }
+
+  function graveNope(element) {
+    clearGraveProgress();
+    element.classList.remove('nope');
+    void element.getBoundingClientRect();
+    element.classList.add('nope');
+    if (cues()) cues().nope();
+  }
+  tombstones.forEach((stone) => stone.addEventListener('animationend', () => stone.classList.remove('nope')));
+
+  function onTombstoneTap(detail) {
+    detail.handled = true;
+    if (detail.id !== GRAVE_ORDER[graveProgress]) {
+      graveNope(detail.element);
+      return;
+    }
+    detail.element.classList.add('progress');
+    if (cues()) cues().graveTap(graveProgress);
+    graveProgress += 1;
+    if (graveProgress === GRAVE_ORDER.length) {
+      clearGraveProgress();
+      play('graveyard');
+    }
+  }
+
+  // ---------- Story 3 trigger: windows right -> left -> upper-middle ----------
+
+  const HOUSE_ORDER = [3, 1, 2];
+  const windows = [...document.querySelectorAll('.hotspot[data-kind="window"]')];
+
+  function clearHouseProgress() {
+    houseProgress = 0;
+    windows.forEach((window) => window.classList.remove('progress'));
+  }
+
+  function houseNope(element) {
+    clearHouseProgress();
+    element.classList.remove('nope');
+    void element.getBoundingClientRect();
+    element.classList.add('nope');
+    if (cues()) cues().nope();
+  }
+  windows.forEach((window) => window.addEventListener('animationend', () => window.classList.remove('nope')));
+
+  function onWindowTap(detail) {
+    detail.handled = true;
+    if (detail.id !== HOUSE_ORDER[houseProgress]) {
+      houseNope(detail.element);
+      return;
+    }
+    detail.element.classList.add('progress');
+    if (cues()) cues().houseTap(houseProgress);
+    houseProgress += 1;
+    if (houseProgress === HOUSE_ORDER.length) {
+      clearHouseProgress();
+      play('house');
+    }
+  }
+
   document.addEventListener('hollow:tap', (event) => {
     idleSeconds = 0;                                   // any tap on the scene keeps a half-finished sequence alive
     if (event.detail.kind === 'pumpkin') onPumpkinTap(event.detail);
+    if (event.detail.kind === 'tombstone') onTombstoneTap(event.detail);
+    if (event.detail.kind === 'window') onWindowTap(event.detail);
   });
 
   // Counts idle time with real elapsed time, but only while the scene is running: Pause and stories stop it.
@@ -83,10 +158,20 @@
     const elapsed = Math.min((now - lastTick) / 1000, 0.5);
     lastTick = now;
     const s = app.state();
-    if (s.phase !== 'running' || s.story || progress === 0) return;
+    if (s.phase !== 'running' || s.story || (progress === 0 && graveProgress === 0 && houseProgress === 0)) return;
     idleSeconds += elapsed;
-    if (idleSeconds >= SEQUENCE_TIMEOUT_S) clearProgress();
+    if (idleSeconds >= SEQUENCE_TIMEOUT_S) {
+      clearProgress();
+      clearGraveProgress();
+      clearHouseProgress();
+    }
   }, 200);
 
-  window.hollowStory = { play, isPlaying: () => current !== null, progress: () => progress };
+  window.hollowStory = {
+    play,
+    isPlaying: () => current !== null,
+    progress: () => progress,
+    graveProgress: () => graveProgress,
+    houseProgress: () => houseProgress,
+  };
 })();

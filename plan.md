@@ -24,7 +24,9 @@ Status: Approved by Developer 2026-10-19. Main risk across these: layout or laye
 - [x] **2. Early deploy.** Push to GitHub Pages and open the HTTPS URL on a physical phone. Verify: scene fits, Enter works, tap targets usable. Catches viewport/address-bar issues before effects are added.
 - [x] **3. Ambient visuals.** Fog, bats, flicker, leaves, stars, one at a time. Verify: each visible, loops cleanly, honors reduced motion, Play/Pause freezes them.
 - [x] **4. Ambient audio.** Source and verify CC0 wind and owl (record in `research.md`), loop, gated by Enter, paused by Play/Pause.
-- [ ] **5. Story 1 (pumpkins)** as a standalone sequence first, then triggers, progress feedback, hints, input lock. Then Phase 1 playtest.
+- [x] **5. Story 1 (pumpkins)** as a standalone sequence first, then triggers, progress feedback, hints, input lock. Then Phase 1 playtest.
+- [ ] **6. Story 2 (graveyard).** Tombstones left -> right -> center, then ground rumble, yawning stones and three dancing ghosts. Verify the sequence, replay, Pause, reduced motion and feedback before reviewing it on a phone.
+- [ ] **7. Story 3 (house).** Windows right -> left -> upper-middle, then a shudder, blinking windows, door-party and light snap. Verify the sequence, replay, Pause, reduced motion and feedback before reviewing it on a phone.
 
 Test each result before continuing, including related behavior that already works. Update priorities as evidence emerges and preserve meaningful working checkpoints in git. Before delivery, verify the deployed app against the brief and specification.
 
@@ -118,6 +120,26 @@ Spec: "Story 1 build spec" in `spec.md` (Developer chose all four pumpkins small
 **Saved for Phase 2 (2026-10-19):** the test scripts used throughout are now in `tests/` with a README, a shared harness and a runner (`python tests/run_all.py --quick`), and the full build-session transcript is in `transcripts/build-2026-10-19_194148.md`.
 
 **Peer playtests:** protocol, script, observation table and note template are in `playtest.md` (drafted by the Agent 2026-10-19; the Developer runs the sessions). Purpose (Developer): find every issue in story 1, fix story 1, and apply the lessons to stories 2 and 3; tag each finding as "story 1 only" or "applies to every story". Record each tester's session in this section. `playtest.md` must be updated once stories 2 and 3 exist.
+
+### Phase 1 peer-playtest summary (Developer report, 2026-10-25)
+
+**Observed / said:** Every tester eventually completed the pumpkin sequence. Completion time varied, but nobody made a consequential wrong-order error. Testers saw only the first hint; the Developer did not infer that the hint caused completion, because they recognized that the pumpkins were the relevant interactive set. The house windows and tombstones responded only with the prototype feedback, which confused testers because they appeared to invite fuller interactions. No problems were reported with the pumpkin story, sound, Pause, or other intended behavior. Testers used the same or similar phone types.
+
+**Interpretation and priority:** Story 1 is sufficiently discoverable for this sample. The inactive house and graveyard are a whole-scene expectation gap, not a pumpkin-story defect; completing the other two promised stories takes priority over changing the pumpkin trigger or hints. Device variety and individual session details were not recorded, so these observations do not establish behavior across phone/browser types.
+
+**Revision chosen:** Build the graveyard story next. Its approved trigger is a fixed left -> right -> center tombstone order, not a timing/rhythm puzzle, so ordinary variation in tap speed cannot cause a false failure.
+
+### Checkpoint 6: Story 2, graveyard (built and Developer-reviewed 2026-10-25; automated browser checks pass; physical-phone review pending)
+
+The Developer verified the left -> right -> center trigger, wrong-tap reset, story playback, Pause/Play and reduced-motion version on the local build. The story's ground rumble, yawning stones, dancing ghosts, mist, reset and synthesized sound are approved as the current direction. A review finding showed that the cross on the center tombstone did not move with a wrong-tap shake; the shake now belongs to the complete tombstone hotspot, so its cross stays attached, and the Developer rechecked it. The correct-tap notes are intentionally G -> C -> B-flat: an upward movement during the left/right part of the path, settling lower at the center; the Developer accepted this for now and may revisit it later.
+
+**Shared story-pause repair (2026-10-25):** Developer testing found that the House shudder and the Graveyard stones kept animating during Pause, even though the overlay ghosts froze. Cause: their new animations lived outside the existing `.sfx` pause scope. Tombstone hotspots and the House building now carry that shared scope, so their story and wrong-tap animations freeze with every other story element. The far hill was also in the House animation group, making it move with the building; the building is now a separate animated group and the hill stays still. The Developer rechecked the repair successfully in the local preview (see Developer recheck below).
+
+**Hint revision (2026-10-25):** Once all stories existed, the third all-stories hint still said "rhythm," although the Developer chose fixed orders for both the graveyard and house. It now reads "Size and position matter… patterns wake them.": direct enough to point toward the relevant attributes, but it does not reveal any exact sequence.
+
+**Developer recheck (2026-10-25):** The House sequence, Graveyard sequence, shared Pause repair, all-stories hint wording, and the restored "patterns wake them" ending all work as intended in the local preview.
+
+**Automated verification (Agent, 2026-10-25):** `python tests/run_all.py --quick` completed all 13 checks without a crash. The graveyard and house checks measured story runs of about 8.03 s and 8.01 s, confirmed the correct trigger orders and progress lights, wrong-tap resets, replay, reduced-motion variants, and zero browser exceptions. Both animation clocks stayed frozen during Pause. The first focused run sampled transforms too soon after toggling Pause and falsely reported movement; the checks now wait for the browser to commit the paused frame and compare animation clock time. Physical-phone review of these two stories remains to be done before checking off checkpoints 6 and 7.
 
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. Not checked on the phone result above beyond the Developer's "everything looks good"; ask again if it comes up.
 

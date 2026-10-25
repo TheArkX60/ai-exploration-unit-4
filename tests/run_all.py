@@ -8,7 +8,7 @@ import os, subprocess, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 QUICK = ["test_shell.py", "test_triggers.py", "test_story.py", "test_enter_focus.py", "test_story_note.py",
          "test_story_note_pause.py", "test_autopause.py", "test_flicker.py", "test_fog.py", "test_leaves.py",
-         "test_face_shake.py"]
+         "test_face_shake.py", "test_graveyard.py", "test_house.py"]
 SLOW = ["test_hints.py", "test_audio.py", "test_bats.py", "test_bat_gaps.py", "test_story_frames.py"]
 LIVE = ["test_audit_live.py"]
 

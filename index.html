@@ -8,7 +8,7 @@
   <link rel="icon" href="data:,">
   <!-- ?v= is bumped before each push: GitHub Pages lets browsers cache files for 10 minutes, and a fresh
        index.html paired with a cached style.css/app.js broke the bats on a phone -->
-  <link rel="stylesheet" href="style.css?v=20261019-12">
+  <link rel="stylesheet" href="style.css?v=20261025-01">
 </head>
 <body>
 
@@ -125,13 +125,16 @@
       <!-- 2. Far hill + house (windows are hotspots) -->
       <g id="layer-house">
         <path fill="#1c0f33" d="M-1000 400 L0 400 C60 380 120 352 200 346 C280 340 330 366 360 378 L1360 378 L1360 1240 L-1000 1240 Z"/>
+        <!-- The hill remains still during the House story; only this building group shudders. sfx also makes
+             its door, windows and wrong-tap feedback obey the shared Pause rule. -->
+        <g id="house-building" class="sfx">
         <g fill="#0e0720">
           <path d="M172 384 L172 290 L156 294 L236 226 L252 206 L346 290 L332 288 L332 384 Z"/>
           <path d="M292 240 L311 198 L330 242 Z"/>
           <rect x="296" y="236" width="30" height="56"/>
           <rect x="190" y="232" width="14" height="32"/>
         </g>
-        <rect x="238" y="338" width="24" height="46" rx="12" fill="#1c0f33"/>
+        <rect class="house-door" x="238" y="338" width="24" height="46" rx="12" fill="#1c0f33"/>
 
         <g class="hotspot" role="button" tabindex="0" aria-label="Window 1" data-kind="window" data-id="1">
           <circle class="halo fx flicker flicker-1" cx="200" cy="322" r="30"/>
@@ -151,24 +154,25 @@
           <rect class="art" fill="#ffb347" x="294" y="316" width="16" height="20" rx="2"/>
           <rect class="hit" x="278" y="302" width="48" height="48" rx="8"/>
         </g>
+        </g>
       </g>
 
       <!-- 3. Graveyard (left, tombstones are hotspots) + tree with lantern -->
       <g id="layer-graveyard">
         <path fill="#120a24" d="M-1000 470 L0 470 C80 450 180 440 260 455 C310 462 340 458 360 450 L1360 450 L1360 1240 L-1000 1240 Z"/>
 
-        <g class="hotspot" role="button" tabindex="0" aria-label="Tombstone 1" data-kind="tombstone" data-id="1">
+        <g class="hotspot sfx" role="button" tabindex="0" aria-label="Tombstone 1" data-kind="tombstone" data-id="1">
           <circle class="glow" cx="44" cy="482" r="30"/>
           <path class="art stone" d="M30 504 V474 A14 14 0 0 1 58 474 V504 Z"/>
           <rect class="hit" x="20" y="458" width="48" height="52" rx="8"/>
         </g>
-        <g class="hotspot" role="button" tabindex="0" aria-label="Tombstone 2" data-kind="tombstone" data-id="2">
+        <g class="hotspot sfx" role="button" tabindex="0" aria-label="Tombstone 2" data-kind="tombstone" data-id="2">
           <circle class="glow" cx="106" cy="486" r="30"/>
           <path class="art stone" d="M90 508 V480 A16 16 0 0 1 122 480 V508 Z"/>
           <path d="M106 470 V488 M99 477 H113" stroke="#6b5a8e" stroke-width="2" fill="none" stroke-linecap="round"/>
           <rect class="hit" x="82" y="460" width="48" height="52" rx="8"/>
         </g>
-        <g class="hotspot" role="button" tabindex="0" aria-label="Tombstone 3" data-kind="tombstone" data-id="3">
+        <g class="hotspot sfx" role="button" tabindex="0" aria-label="Tombstone 3" data-kind="tombstone" data-id="3">
           <circle class="glow" cx="168" cy="484" r="30"/>
           <path class="art stone" transform="rotate(7 168 506)" d="M154 506 V480 A14 14 0 0 1 182 480 V506 Z"/>
           <rect class="hit" x="144" y="460" width="48" height="52" rx="8"/>
@@ -264,8 +268,10 @@
       </g>
       <g id="layer-story" data-layer="story-overlay" pointer-events="none" class="sfx">
         <!-- Everything here is invisible until <html data-story="..."> is set; CSS (style.css) runs the timeline.
-             .s-clock is an 8 s timer whose animationend ends the story. -->
-        <rect class="s-clock" width="1" height="1" opacity="0"/>
+             Each story has its own 8 s clock; its animationend returns control to the scene. -->
+        <rect class="s-clock s-clock-pumpkins" width="1" height="1" opacity="0"/>
+        <rect class="s-clock s-clock-graveyard" width="1" height="1" opacity="0"/>
+        <rect class="s-clock s-clock-house" width="1" height="1" opacity="0"/>
 
         <!-- Story 1 (pumpkins). Glows and faces sit on the four pumpkins (centers and sizes match layer-patch). -->
         <g class="s-pumpkins">
@@ -300,6 +306,32 @@
             <circle class="s-puff" cx="304" cy="541" r="13" fill="url(#puff-grad)"/>
             <circle class="s-puff" cx="294" cy="568" r="16" fill="url(#puff-grad)"/>
           </g>
+        </g>
+
+        <!-- Story 2 (graveyard). The underlying stones yawn in place; these three small ghosts rise from
+             behind them, dance briefly, then sink back into a soft ground-mist puff. -->
+        <g class="g-story">
+          <ellipse class="g-rumble" cx="106" cy="510" rx="106" ry="19" fill="url(#puff-grad)"/>
+          <g class="g-ghost g-ghost-left"><use href="#ghost" x="25" y="430" width="38" height="51"/></g>
+          <g class="g-ghost g-ghost-center"><use href="#ghost" x="87" y="434" width="38" height="51"/></g>
+          <g class="g-ghost g-ghost-right"><use href="#ghost" x="149" y="432" width="38" height="51"/></g>
+          <g class="g-mist">
+            <circle cx="48" cy="498" r="17" fill="url(#puff-grad)"/>
+            <circle cx="88" cy="503" r="20" fill="url(#puff-grad)"/>
+            <circle cx="126" cy="500" r="19" fill="url(#puff-grad)"/>
+            <circle cx="165" cy="501" r="16" fill="url(#puff-grad)"/>
+          </g>
+        </g>
+
+        <!-- Story 3 (house). The real house and windows shudder/blink in place. A small door-shaped overlay
+             opens to reveal three tiny dancing ghosts, then closes as the house lights snap back on. -->
+        <g class="h-story">
+          <rect class="h-open-door" x="238" y="338" width="24" height="46" rx="12" fill="#0b0620"/>
+          <g class="h-party h-party-left"><use href="#ghost" x="239" y="350" width="10" height="14"/></g>
+          <g class="h-party h-party-middle"><use href="#ghost" x="246" y="346" width="10" height="14"/></g>
+          <g class="h-party h-party-right"><use href="#ghost" x="253" y="350" width="10" height="14"/></g>
+          <circle class="h-party-light h-party-light-a" cx="245" cy="347" r="12" fill="url(#light-glow)"/>
+          <circle class="h-party-light h-party-light-b" cx="256" cy="354" r="11" fill="url(#light-glow)"/>
         </g>
       </g>
     </svg>
@@ -336,10 +368,10 @@
   </dialog>
 
   <script src="audio.js?v=20261019-12"></script>
-  <script src="cues.js?v=20261019-12"></script>
+  <script src="cues.js?v=20261025-01"></script>
   <script src="ambient.js?v=20261019-12"></script>
-  <script src="app.js?v=20261019-12"></script>
-  <script src="story.js?v=20261019-12"></script>
-  <script src="hints.js?v=20261019-12"></script>
+  <script src="app.js?v=20261025-01"></script>
+  <script src="story.js?v=20261025-01"></script>
+  <script src="hints.js?v=20261025-03"></script>
 </body>
 </html>
