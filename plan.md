@@ -129,7 +129,7 @@ Spec: "Story 1 build spec" in `spec.md` (Developer chose all four pumpkins small
 
 **Revision chosen:** Build the graveyard story next. Its approved trigger is a fixed left -> right -> center tombstone order, not a timing/rhythm puzzle, so ordinary variation in tap speed cannot cause a false failure.
 
-### Checkpoint 6: Story 2, graveyard (built and Developer-reviewed 2026-10-25; automated browser checks pass; physical-phone review pending)
+### Checkpoint 6: Story 2, graveyard (built and Developer-reviewed 2026-10-25; automated and physical-phone checks pass)
 
 The Developer verified the left -> right -> center trigger, wrong-tap reset, story playback, Pause/Play and reduced-motion version on the local build. The story's ground rumble, yawning stones, dancing ghosts, mist, reset and synthesized sound are approved as the current direction. A review finding showed that the cross on the center tombstone did not move with a wrong-tap shake; the shake now belongs to the complete tombstone hotspot, so its cross stays attached, and the Developer rechecked it. The correct-tap notes are intentionally G -> C -> B-flat: an upward movement during the left/right part of the path, settling lower at the center; the Developer accepted this for now and may revisit it later.
 
@@ -142,6 +142,10 @@ The Developer verified the left -> right -> center trigger, wrong-tap reset, sto
 **Automated verification (Agent, 2026-10-25):** `python tests/run_all.py --quick` completed all 13 checks without a crash. The graveyard and house checks measured story runs of about 8.03 s and 8.01 s, confirmed the correct trigger orders and progress lights, wrong-tap resets, replay, reduced-motion variants, and zero browser exceptions. Both animation clocks stayed frozen during Pause. The first focused run sampled transforms too soon after toggling Pause and falsely reported movement; the checks now wait for the browser to commit the paused frame and compare animation clock time. Physical-phone review is recorded below.
 
 **Physical-phone review (Developer, 2026-10-25):** The deployed three-story build was opened on the phone; Developer report: "Everything works as intended." Checkpoints 6 and 7 are complete.
+
+### Phase 2 informal showcase (Developer report, 2026-10-26)
+
+The Developer showed the finished version to other people and reports that they liked it. This was an informal demonstration, not a structured peer playtest: no tester-by-tester observations, device/browser details, discovery timing, or follow-up questions were recorded. It is positive informal feedback, not evidence that the Phase 2 peer-playtesting deliverable was completed. The Developer chose not to run additional playtests.
 
 **Open issue (carried over):** the left-edge sliver on windows and lantern (see above) was accepted and not fixed. It was not specifically called out in the phone review; revisit only if it becomes noticeable or testers mention it.
 
